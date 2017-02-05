@@ -1,0 +1,29 @@
+%& --shell-escape
+\documentclass{article}
+\usepackage{graphics}
+\usepackage{pgfplots}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+
+
+\pgfplotsset{compat=newest}
+
+\begin{document}
+\begin{tikzpicture}[xscale=0.7]
+  \begin{axis}[grid = major, hide axis]
+    \addplot+[mark=none, smooth, color = black, thick] function[raw gnuplot] {
+      set xrange [-5:5];
+      set yrange [-5:5];
+      set contour base;
+      set cntrparam levels incre 0,0.1,0;
+      set size square;
+      set cont base;
+      unset surface;
+      set view map;
+      set isosamples 2000,2000;
+      splot y**2 - x**3 + 2 *x + -1;
+    };
+  \end{axis}
+\end{tikzpicture}
+\end{document}
+

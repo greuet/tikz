@@ -4,3 +4,4 @@ auto/
 *.log
 *~
 *.gnuplot
+*#

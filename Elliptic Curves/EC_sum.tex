@@ -1,0 +1,105 @@
+%& --shell-escape
+\documentclass{article}
+\usepackage{graphics}
+\usepackage{pgfplots}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+
+
+\pgfplotsset{compat=newest}
+
+\begin{document}
+\begin{tikzpicture}[xscale=0.7]
+  \begin{axis}[grid = major, hide axis]
+    \addplot+[mark=none, smooth, color = black, thick] function[raw gnuplot] {
+      set xrange [-5:5];
+      set yrange [-5:5];
+      set contour base;
+      set cntrparam levels incre 0,0.1,0;
+      set size square;
+      set cont base;
+      unset surface;
+      set view map;
+      set isosamples 2000,2000;
+      splot y**2 - x**3 + 2 *x + -1;
+    };
+
+    % \addplot+[very thin, mark=*, mark size = 1pt, scatter, scatter src=explicit] coordinates {
+    %     ({ -1 },{ sqrt(2) })[1]
+    %     ({ 2 },{ sqrt(5) })[2]
+    %     % ({ 1/9*sqrt(2) + 3/2 },{ 119/108*sqrt(2) + 13/54 })[3]
+    % };
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % tangente en P ({ -1 },{ sqrt(2) })
+    % \addplot+[color = red, mark = none] coordinates {
+    %     ({ 3 },{ 3*sqrt(2)})
+    %     ({ -2 },{ 1/sqrt(2)})
+    % };
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %   P, Q, R
+    \addplot+[mark=*, mark size = 1pt, scatter, scatter
+    src=explicit] coordinates {
+      % ({ -3/2 },{ (1/2)*sqrt(5/2) })[1]
+      % ({ -1/2 },{ (1/2)*sqrt(15/2) })[2]
+      % ({1/4*(sqrt(15/2) - sqrt(5/2))^2 - 1/2*sqrt(15/2) + 3/2}, {1/8*((sqrt(15/2) + sqrt(5/2))^2
+      %   + 2*sqrt(15/2) + 6)*(sqrt(15/2) -sqrt(5/2)) + 3/4*sqrt(15/2) - 1/4*sqrt(5/2)})[3]
+      ({ -3/2 },{ 0.790569415042095})[1]
+      ({ -1/2 },{ 1.36930639376292 })[1]
+      (2.33493649053890, 3)[1]
+    };
+
+    \addplot+[mark=*, mark size = 1pt, scatter, scatter
+    src=explicit] coordinates
+    {
+      (2.33493649053890, -3)[1]
+    };
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % \addplot+[transparent, color=red, mark=*, mark size = 1pt, scatter, scatter
+    % src=explicit] coordinates {
+    %   (2.33493649053890, 3)[1]
+    %   (2.33493649053890, -3)[1]
+    % };
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    % droite PQ, P = ({ -3/2 },{ (1/2)*sqrt(5/2) }), Q= ({ -1/2 },{ (1/2)*sqrt(15/2) })
+    \addplot+[thick, color = red, mark = none] coordinates { ({ 3 },{
+        9/4*sqrt(15/2) - 7/4*sqrt(5/2) }) ({ -2 },{ -1/4*sqrt(15/2) +
+        3/4*sqrt(5/2) }) };
+
+
+    % droite R,(-R)
+    \addplot+[dotted, thick, color = red, mark = none, ] coordinates {
+      ({ 2.33493649053890 },{4.5})
+      ({ 2.33493649053890 },{ -4.5 })
+    };
+
+    % \addplot+[color = red, mark = none] coordinates {
+    %     ({ -2 },{ -1/12*sqrt(2) - 5/12 })
+    %     ({ 3 },{ 19/12*sqrt(2) + 5/12 })
+    % };
+
+    \node[anchor = south east] at (axis cs: -1.4 , 0.79 )
+    {\resizebox{1.42857142857143ex}{1ex}{$P$}}; \node[anchor = south]
+    at (axis cs: -0.5 , 1.37)
+    {\resizebox{1.42857142857143ex}{1ex}{$Q$}}; \node[anchor = south
+    east] at (axis cs: 2.335 , 2.8) {\resizebox{2.86ex}{1ex}{$-R$}};
+    \node[anchor = east] at (axis cs: 2.335 , -3)
+    {\resizebox{1.42857142857143ex}{1ex}{$R$}};
+  \end{axis}
+\end{tikzpicture}
+
+
+
+
+
+
+
+
+
+\end{document}
+

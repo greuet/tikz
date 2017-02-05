@@ -1,0 +1,120 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+
+\usepackage{fontspec}
+
+\setsansfont[
+Path=.././Fonts/,
+Extension      = .otf,
+Ligatures      = TeX,
+BoldFont       = Interstate-Bold,
+ItalicFont     = Interstate-LightItalic,
+BoldItalicFont = Interstate-BoldItalic
+]{Interstate-Light}
+
+
+\usetikzlibrary{backgrounds,calc,shapes,shapes.symbols, fit}
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+
+\definecolor{OTBlue}{RGB}{0,81,158}
+\definecolor{OTViolet}{RGB}{165,51,136}
+
+\definecolor{OTmarineblue}{cmyk}{1,0.5,0,0.3}
+\definecolor{OTcyan}{cmyk}{0.75,0.25,0,0}
+\definecolor{limegreen}{cmyk}{0.3,0,1,0}
+\definecolor{yellow}{cmyk}{0,0.3,0.95,0}
+\definecolor{cyan}{cmyk}{0.9,0.15,0,0}
+\definecolor{magenta}{cmyk}{0,0.9,0,0}
+\definecolor{violet}{cmyk}{0.4,0.9,0,0}
+\definecolor{turquoise}{cmyk}{0.8,0,0.45,0}
+\definecolor{orangeyellow}{cmyk}{0,0.6,1,0}
+\definecolor{red}{cmyk}{0,1,0.85,0}
+\definecolor{average}{cmyk}{0.6,0.15,1,0}
+\definecolor{salmonpink}{cmyk}{0,0.65,0.55,0}
+\definecolor{lavender}{cmyk}{0.6,0.4,0,0}
+\definecolor{green}{cmyk}{1,0,1,0.1}
+\definecolor{violetblue}{cmyk}{0.8,1,0,0}
+\definecolor{orange}{cmyk}{0,0.75,1,0}
+\definecolor{blue}{cmyk}{1,0.7,0,0}
+\definecolor{OTOrange}{RGB}{233,93,45}
+\definecolor{OTOrangeYellow}{RGB}{238,127,0}
+\definecolor{OTYellow}{RGB}{250,187,0}
+\definecolor{OTBlue}{RGB}{0,81,158}
+\definecolor{OTVioletBlue}{RGB}{87,35,129}
+\definecolor{OTRed}{RGB}{226,0,43}
+\definecolor{OTViolet}{RGB}{165,51,136}
+\definecolor{OTAverage}{RGB}{124,164,33}
+\definecolor{OTGreen}{RGB}{0,134,51}
+\definecolor{OTCyan}{RGB}{0,152,215}
+
+\tikzset{ 
+  table/.style={
+    matrix,
+    % row sep=-\pgflinewidth,
+    column sep=-\pgflinewidth,
+    nodes={rectangle},
+  }
+}
+
+
+\begin{document}
+\sffamily
+\begin{tikzpicture}[node distance=2.3cm,>=latex]
+
+  %% SENDER
+  \begin{scope}[node distance=1cm,>=latex]
+    \node[draw, fill=red!50] (RSA1) {Encrypt};
+    \node[draw, fill=OTOrange!80, below of=RSA1] (RSAout1) {Signature};
+    \node[draw, fill=OTBlue!50, above of=RSA1] (Plain1) {Message};
+
+    \draw[->] (Plain1) -- (RSA1);
+    \draw[->] (RSA1) -- (RSAout1);
+  \end{scope}
+    \node[red, left of=RSA1, text width=1.5cm, text centered] (K1) {Sender's $SK$};
+    \draw[->] (K1) -- (RSA1);
+
+    \node[fit=(RSA1)(K1)(RSAout1)(Plain1), draw, inner sep=5pt] (Sender) {};
+    \node at (Sender.north) [above, inner sep=3mm] {\textbf{Sender}};
+
+  %% CHANNEL
+  \begin{scope}[node distance=3cm]
+    \node[draw, right of = Plain1, fill=OTBlue!50] (Plain2) {Message};
+    \node[draw, fill=OTOrange!80, right of=RSAout1] (RSAout2) {Signature};
+  \end{scope}
+    \draw[->] (RSAout1) -- (RSAout2);
+    \draw[->] (Plain1) -- (Plain2);
+
+    \node[fit=(RSAout2)(Plain2), draw, dashed, inner sep=5pt] (Channel) {}; 
+    \node at (Channel.north) [above, inner sep=3mm] {\textbf{Channel}};
+
+  %% RECEIVER
+  \begin{scope}[node distance=2cm,>=latex]
+    \begin{scope}[node distance=5.3cm]
+      \node[draw, fill=OTGreen!50, right of = RSAout2] (RSA3) {Decrypt};
+      \node[draw, fill=OTBlue!50, right of = Plain2] (Plain3) {Message};
+    \end{scope}
+    \begin{scope}[node distance=2.5cm]
+      \node[draw, fill=OTOrange!80, left of=RSA3] (RSAout3) {Signature};
+    \end{scope}
+    \node (test) at ($(Plain3)!0.5!(RSA3)$) {$=$?};
+  \end{scope}
+
+  \begin{scope}[node distance=1.5cm]
+    \node[OTGreen, below of=RSA3, text width=1.5cm, text centered] (K3) {Sender's $PK$};
+  \end{scope}
+
+  \node[fit=(Plain3)(RSA3)(K3)(RSAout3)(RSA3)(test), draw, inner sep=5pt] (Receiver) {};
+  \node at (Receiver.north) [above, inner sep=3mm] {\textbf{Receiver}};
+
+  \draw[->] (K3) -- (RSA3);
+  \draw[->] (RSAout2) -- (RSAout3);
+  \draw[->] (Plain2) -- (Plain3);
+  \draw[->] (RSAout3) -- (RSA3);
+  \draw[->] (RSA3) -- (test);
+  \draw[->] (Plain3) -- (test);
+  \draw[->] (Plain2) -- (Plain3);
+\end{tikzpicture}
+\end{document}

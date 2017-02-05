@@ -1,0 +1,85 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+
+\usetikzlibrary{backgrounds,calc,shapes,shapes.symbols, fit}
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+\definecolor{Blue}{RGB}{0,81,158}
+\definecolor{Violet}{RGB}{165,51,136}
+\definecolor{Orange}{RGB}{233,93,45}
+\definecolor{VioletBlue}{RGB}{87,35,129}
+\definecolor{Red}{RGB}{226,0,43}
+\definecolor{Violet}{RGB}{165,51,136}
+\definecolor{Green}{RGB}{0,134,51}
+
+\tikzset{ 
+  table/.style={
+    matrix,
+    % row sep=-\pgflinewidth,
+    column sep=-\pgflinewidth,
+    nodes={rectangle},
+  }
+}
+
+
+\begin{document}
+\sffamily
+\begin{tikzpicture}[node distance=2.3cm,>=latex]
+
+  %% SENDER
+  \begin{scope}[node distance=1cm,>=latex]
+    \node[draw, fill=red!50] (MAC1) {MAC Algorithm};
+    \node[draw, fill=Orange!80, below of=MAC1] (MACout1) {MAC};
+    \node[draw, fill=Blue!50, above of=MAC1] (Plain1) {Message};
+
+    \draw[->] (Plain1) -- (MAC1);
+    \draw[->] (MAC1) -- (MACout1);
+  \end{scope}
+    \node[red, left of=MAC1] (K1) {$K$};
+    \draw[->] (K1) -- (MAC1);
+
+    \node[fit=(MAC1)(K1)(MACout1)(Plain1), draw, inner sep=5pt] (Sender) {};
+    \node at (Sender.north) [above, inner sep=3mm] {\textbf{Sender}};
+
+  %% CHANNEL
+  \begin{scope}[node distance=3cm]
+    \node[draw, right of = Plain1, fill=Blue!50] (Plain2) {Message};
+    \node[draw, fill=Orange!80, right of=MACout1] (MACout2) {MAC};
+  \end{scope}
+    \draw[->] (MACout1) -- (MACout2);
+    \draw[->] (Plain1) -- (Plain2);
+
+    \node[fit=(MACout2)(Plain2), draw, dashed, inner sep=5pt] (Channel) {}; 
+    \node at (Channel.north) [above, inner sep=3mm] {\textbf{Channel}};
+
+  %% RECEIVER
+  \begin{scope}[node distance=1cm,>=latex]
+    \begin{scope}[node distance=4.3cm]
+    \node[draw, fill=Blue!50, right of=Plain2] (Plain3) {Message};
+    \end{scope}
+    \node[draw, fill=red!50, below of = Plain3] (MAC3) {MAC Algorithm};
+    \node[draw, fill=Orange!80, below of = MAC3] (MACout3) {MAC};
+
+    \begin{scope}[node distance=2cm]
+      \node[draw, fill=Orange!80, left of = MACout3] (MACout4) {MAC};
+      \node (test) at ([yshift=-1cm]$(MACout3)!0.5!(MACout4)$) {$=$?};
+    \end{scope}
+    \draw[->] (Plain3) -- (MAC3);
+    \draw[->] (MAC3) -- (MACout3);
+
+    \draw[->] (MACout3) -- (test);
+    \draw[->] (MACout4) -- (test);
+    \draw[->] (MACout2) -- (MACout4);
+  \end{scope}
+    \node[red, left of=MAC3] (K3) {$K$}; 
+   \draw[->] (K3) -- (MAC3);
+
+    \node[fit=(MAC3)(K3)(MACout3)(Plain3)(MACout4)(test), draw, inner sep=5pt] (Receiver) {};
+    \node at (Receiver.north) [above, inner sep=3mm] {\textbf{Receiver}};
+
+
+    \draw[->] (Plain2) -- (Plain3);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,115 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{backgrounds,calc,shapes.symbols}
+
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+\definecolor{Blue}{RGB}{0,81,158}
+\definecolor{Red}{RGB}{226,0,43}
+
+
+
+\tikzset{ 
+  table/.style={
+    matrix,
+    row sep=-\pgflinewidth,
+    column sep=-\pgflinewidth,
+    nodes={rectangle, align=center},
+    text width=0.8em
+  }
+}
+
+
+\newcommand{\myarrow}{
+  \begin{tikzpicture}
+    \draw[->] (0,0.5) -- (0,0);
+  \end{tikzpicture}
+}
+
+
+\begin{document}
+
+\begin{tikzpicture}[node distance = 7cm]
+  \ttfamily
+  \node (up) {
+    \begin{tikzpicture}[>=latex]
+      \matrix (upmatrix) [table]{
+        \node[draw, rectangle, fill=Blue!40] (A) {A}; & 
+        \node[draw, rectangle, fill=Blue!40] (B) {B}; & 
+        \node[draw, rectangle, fill=Blue!40] (C) {C}; & 
+        \node[draw, rectangle, fill=Blue!40] (D) {D}; & 
+        \node[draw, rectangle, fill=Blue!40] (E) {E}; & 
+        \node[draw, rectangle, fill=Blue!40] (F) {F}; & 
+        \node[draw, rectangle, fill=Blue!40] (G) {G}; & 
+        \node[draw, rectangle, fill=Blue!40] (H) {H}; & 
+        \node[draw, rectangle, fill=Blue!40] (I) {I}; & 
+        \node[draw, rectangle, fill=Blue!40] (J) {J}; & 
+        \node[draw, rectangle, fill=Blue!40] (K) {K}; & 
+        \node[draw, rectangle, fill=Blue!40] (L) {L}; & 
+        \node[draw, rectangle, fill=Blue!40] (M) {M}; \\
+        
+        \node {\myarrow}; & \node {\myarrow}; & \node {\myarrow}; & \node {\myarrow}; &
+        \node {\myarrow}; & \node {\myarrow}; & \node {\myarrow}; & \node {\myarrow}; &
+        \node {\myarrow}; & \node {\myarrow}; & \node {\myarrow}; & \node {\myarrow}; &
+        \node {\myarrow}; \\
+        
+        \node[draw, rectangle, fill=Red!40] (Cc) {C}; & 
+        \node[draw, rectangle, fill=Red!40] (Gc) {G}; & 
+        \node[draw, rectangle, fill=Red!40] (Hc) {H}; & 
+        \node[draw, rectangle, fill=Red!40] (Uc) {U}; & 
+        \node[draw, rectangle, fill=Red!40] (Zc) {Z}; & 
+        \node[draw, rectangle, fill=Red!40] (Jc) {J}; & 
+        \node[draw, rectangle, fill=Red!40] (Tc) {T}; & 
+        \node[draw, rectangle, fill=Red!40] (Ec) {E}; & 
+        \node[draw, rectangle, fill=Red!40] (Lc) {L}; & 
+        \node[draw, rectangle, fill=Red!40] (Ic) {I}; & 
+        \node[draw, rectangle, fill=Red!40] (Xc) {X}; & 
+        \node[draw, rectangle, fill=Red!40] (Yc) {Y}; & 
+        \node[draw, rectangle, fill=Red!40] (Fc) {F}; \\
+      };
+    \end{tikzpicture}
+  };
+
+
+  \node (down) [right of=up]{
+    \begin{tikzpicture}[>=latex]
+      \matrix (downmatrix) [table]{
+        \node[draw, rectangle, fill=Blue!40] (N) {N}; & 
+        \node[draw, rectangle, fill=Blue!40] (O) {O}; & 
+        \node[draw, rectangle, fill=Blue!40] (P) {P}; & 
+        \node[draw, rectangle, fill=Blue!40, text depth=0ex] (Q) {Q}; & 
+        \node[draw, rectangle, fill=Blue!40] (R) {R}; & 
+        \node[draw, rectangle, fill=Blue!40] (S) {S}; & 
+        \node[draw, rectangle, fill=Blue!40] (T) {T}; & 
+        \node[draw, rectangle, fill=Blue!40] (U) {U}; & 
+        \node[draw, rectangle, fill=Blue!40] (V) {V}; & 
+        \node[draw, rectangle, fill=Blue!40] (W) {W}; & 
+        \node[draw, rectangle, fill=Blue!40] (X) {X}; & 
+        \node[draw, rectangle, fill=Blue!40] (Y) {Y}; & 
+        \node[draw, rectangle, fill=Blue!40] (Z) {Z};\\
+
+        \node {\myarrow}; & \node {\myarrow}; & \node {\myarrow}; & \node {\myarrow}; &
+        \node {\myarrow}; & \node {\myarrow}; & \node {\myarrow}; & \node {\myarrow}; &
+        \node {\myarrow}; & \node {\myarrow}; & \node {\myarrow}; & \node {\myarrow}; &
+        \node {\myarrow}; \\
+
+        \node[draw, rectangle, fill=red!40] (Oc) {O}; & 
+        \node[draw, rectangle, fill=red!40] (Pc) {P}; & 
+        \node[draw, rectangle, fill=red!40, text depth=0ex] (Qc) {Q}; & 
+        \node[draw, rectangle, fill=red!40] (Jc) {J}; & 
+        \node[draw, rectangle, fill=red!40] (Wc) {W}; & 
+        \node[draw, rectangle, fill=red!40] (Vc) {V}; & 
+        \node[draw, rectangle, fill=red!40] (Ac) {A}; & 
+        \node[draw, rectangle, fill=red!40] (Bc) {B}; & 
+        \node[draw, rectangle, fill=red!40] (Dc) {D}; & 
+        \node[draw, rectangle, fill=red!40] (Mc) {M}; & 
+        \node[draw, rectangle, fill=red!40] (Sc) {S}; & 
+        \node[draw, rectangle, fill=red!40] (Nc) {N}; & 
+        \node[draw, rectangle, fill=red!40] (Qc) {K};\\
+      };
+    \end{tikzpicture}
+  };
+\end{tikzpicture}
+\end{document}

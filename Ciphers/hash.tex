@@ -1,0 +1,47 @@
+\documentclass{article}
+
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+\usetikzlibrary{arrows,decorations.pathmorphing, decorations.pathreplacing,
+  backgrounds,fit,positioning,shapes.symbols,chains}
+
+\definecolor{VioletBlue}{RGB}{87,35,129} 
+
+\begin{document}
+\sffamily
+\begin{tikzpicture}[->, >=latex, shorten >=1pt, auto, node
+  distance=4cm, thick,
+  key node/.style={font=\sffamily\bfseries\LARGE, text width=1cm, text centered}, 
+  text node/.style={rectangle,draw, font=\scriptsize}, text width=6cm, text justified]
+
+  \node[text node] (plaintext) { A hash function is any function that can be used to map digital data of arbitrary size to
+    digital data of fixed size. The values returned by a hash function are called hash values, hash codes, hash sums, or
+    simply hashes. One practical use is a data structure called a hash table, widely used in computer software for rapid
+    data lookup. Hash functions accelerate table or database lookup by detecting duplicated records in a large file. An
+    example is finding similar stretches in DNA sequences. They are also useful in cryptography. A cryptographic hash
+    function allows one to easily verify that some input data matches a stored hash value, but makes it hard to construct
+    any data that would hash to the same value or find any two unique data pieces that hash to the same value. This
+    principle is used by the PGP algorithm for data validation and by many password checking systems.
+
+    A cryptographic hash function is a hash function which is considered practically impossible to invert, that is, to
+    recreate the input data from its hash value alone. These one-way hash functions have been called "the workhorses of
+    modern cryptography". The input data is often called the message, and the hash value is often called the message digest
+    or simply the digest.  };
+
+  \node (ulcorner) [right = 40pt of plaintext, yshift=40pt] {};
+  \node (dlcorner) [right = 40pt of plaintext, yshift=-40pt] {};
+  \node (urcorner) [right = 75pt of plaintext, yshift=10pt] {};
+  \node (drcorner) [right = 75pt of plaintext, yshift=-10pt] {};
+  \draw[-, fill=VioletBlue!60] (ulcorner.west) -- (dlcorner.west) -- (drcorner.west) -- (urcorner.west) -- cycle;
+
+  \node[key node] (H) [right = 40 pt of plaintext] {H};
+  \node[text node, text width=4.25cm] (hashedtext) [right of=H] {45d9dcb79e8ea15a0458d27a8d1df1d5};
+
+
+  \draw[->, ultra thick] (plaintext) -- (H);
+  \draw[->, ultra thick] (H) -- (hashedtext);
+
+\end{tikzpicture}
+\end{document}

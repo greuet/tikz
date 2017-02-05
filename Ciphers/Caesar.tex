@@ -1,0 +1,80 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{backgrounds,calc,shapes.symbols}
+
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+
+\definecolor{Blue}{RGB}{0,81,158}
+\definecolor{Violet}{RGB}{165,51,136}
+\definecolor{Orange}{RGB}{233,93,45}
+\definecolor{VioletBlue}{RGB}{87,35,129}
+\definecolor{Red}{RGB}{226,0,43}
+\definecolor{Violet}{RGB}{165,51,136}
+\definecolor{Green}{RGB}{0,134,51}
+\definecolor{OrangeYellow}{RGB}{238,127,0}
+
+
+
+\tikzset{ 
+  table/.style={
+    matrix,
+    % row sep=-\pgflinewidth,
+    column sep=-\pgflinewidth,
+    nodes={rectangle},
+  }
+}
+
+
+\begin{document}
+\ttfamily
+\begin{tikzpicture}[node distance=1.5cm,>=latex]
+  \matrix (up) [table]{
+    \node[draw, rectangle, opacity=0.6] (X) {X}; &
+    \node[draw, rectangle, opacity=0.6] (Y) {Y}; &
+    \node[draw, rectangle, opacity=0.6] (Z) {Z}; &
+    \node[draw, rectangle, fill=Blue!50] (A) {A}; &
+    \node[draw, rectangle, fill=OrangeYellow!50] (B) {B}; &
+    \node[draw, rectangle, fill=Green!50] (C) {C}; &
+    \node[draw, rectangle, fill=VioletBlue!50] (D) {D}; &
+    \node[draw, rectangle, fill=Red!50] (E) {E}; &
+    \node[draw, rectangle] (phanto) {F};  &
+    \node[draw, rectangle] (phanto2) {G}; &
+    \node[draw, rectangle] (phanto3) {H}; \\
+  };
+
+
+  \matrix (down) [table, below of = up]{
+    \node[draw, rectangle, opacity=0.6] (phantom) {X};  &
+    \node[draw, rectangle, opacity=0.6] (phantom2) {Y}; &
+    \node[draw, rectangle, opacity=0.6] (phantom3) {Z}; &
+    \node[draw, rectangle] (Ac) {A}; &
+    \node[draw, rectangle] (Bc) {B}; &
+    \node[draw, rectangle] (Cc) {C}; &
+    \node[draw, rectangle, fill=Blue!50] (Dc) {D}; &
+    \node[draw, rectangle, fill=OrangeYellow!50] (Ec) {E}; &
+    \node[draw, rectangle, fill=Green!50] (Fc) {F}; &
+    \node[draw, rectangle, fill=VioletBlue!50] (Gc) {G}; &
+    \node[draw, rectangle, fill=Red!50] (Hc) {H}; \\
+ };
+
+    % \node[draw, rectangle] (Gc) {G}; &
+    % \node[draw, rectangle] (Hc) {H}; &
+    % \node[draw, rectangle] (Ic) {I}; \\
+  
+ \draw[->] (A.south) to [out=-90,in=90] (Dc.north);
+ \draw[->] (B.south) to [out=-90,in=90] (Ec.north);
+ \draw[->] (C.south) to [out=-90,in=90] (Fc.north);
+ \draw[->] (D.south) to [out=-90,in=90] (Gc.north);
+ \draw[->] (E.south) to [out=-90,in=90] (Hc.north);
+
+ \draw[dashed,->, opacity=0.6] (X.south) to [out=-90,in=90] (Ac.north);
+ \draw[dashed,->, opacity=0.6] (Y.south) to [out=-90,in=90] (Bc.north);
+ \draw[dashed,->, opacity=0.6] (Z.south) to [out=-90,in=90] (Cc.north);
+ 
+
+
+\end{tikzpicture}
+\end{document}

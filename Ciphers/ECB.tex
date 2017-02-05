@@ -1,0 +1,145 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+
+\usetikzlibrary{backgrounds,calc,shapes,shapes.symbols, fit,
+  decorations.pathmorphing, decorations.pathreplacing, positioning}
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+\definecolor{Blue}{RGB}{0,81,158}
+\definecolor{Violet}{RGB}{165,51,136}
+\definecolor{Orange}{RGB}{233,93,45}
+\definecolor{VioletBlue}{RGB}{87,35,129}
+\definecolor{Red}{RGB}{226,0,43}
+\definecolor{Violet}{RGB}{165,51,136}
+\definecolor{Green}{RGB}{0,134,51}
+
+\tikzset{table/.style={matrix, column sep=-\pgflinewidth, nodes={rectangle}, minimum width=0.8em, minimum height=0.8em,
+    inner sep =0}}
+\tikzset{case/.style={draw, nodes={rectangle}, fill=Green!60,}}
+\tikzset{case cipher/.style={draw, nodes={rectangle}, fill=Orange!60,}}
+\tikzset{BC/.style={draw, nodes={rectangle}, fill=Blue!60, text width=2.2cm, text centered}}
+\tikzset{key/.style={draw, nodes={rectangle}, fill=Red!60, text centered}}
+\tikzset{arrow/.style={inner sep=0pt}}
+
+\newcommand{\myarrow}{
+  \begin{tikzpicture}
+    \draw[->] (0,0.3) -- (0,0);
+  \end{tikzpicture}
+}
+
+
+
+
+
+
+\begin{document}
+\sffamily
+\begin{tikzpicture}[node distance = 1.5cm,>=latex]
+
+  %%--- full plaintext
+  \node (plaintext label) {Plaintext};
+  \matrix (plaintext) [table, below = 1pt of plaintext label]{
+    \node[case] (leftcase1) {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] (middlecase1) {}; &  \node[case] {}; & \node[case] {}; &
+    \node[case] {}; & \node[case] (rightcase1) {}; &  \node[case] (leftcase2) {}; &  \node[case] {}; & \node[case] {}; &  
+    \node[case] {}; & \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] (rightcase2) {}; & \node[case] (leftcase3) {}; &
+    \node[case] {}; & \node[case] {}; &  \node[case] {}; &  \node[case] (middlecase2) {}; &  \node[case] {}; & \node[case] {}; & \node[case] (rightcase3) {}; \\
+  };
+  \draw[decorate, decoration=brace, very thick] ([yshift=-1pt,xshift=-1pt]rightcase1.south east)  -- ([yshift=-1pt,xshift=1pt]leftcase1.south west);
+  \draw[decorate, decoration=brace, very thick] ([yshift=-1pt,xshift=-1pt]rightcase2.south east)  -- ([yshift=-1pt,xshift=1pt]leftcase2.south west);
+  \draw[decorate, decoration=brace, very thick] ([yshift=-1pt,xshift=-1pt]rightcase3.south east)  -- ([yshift=-1pt,xshift=1pt]leftcase3.south west);
+  %%---
+
+  %%--- middle block
+  \matrix (bloc milieu plaintext)  [table, below of=plaintext]{
+    \node[case] {}; & \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; \\
+    \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; &
+    \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; & \node[arrow] {\myarrow};\\
+  };
+
+  \node[BC, below=0pt of bloc milieu plaintext] (bloc milieu BC) {Block Cipher Encryption};
+  \node[key, left=1em of bloc milieu BC] (bloc milieu key) {$K$};
+  \draw[->, thick] (bloc milieu key) -- (bloc milieu BC);
+
+  \matrix (bloc milieu ciphertext)  [table, below=0pt of bloc milieu BC]{
+    \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; &
+    \node[arrow] {\myarrow}; &  \node[arrow] {\myarrow}; &  \node[arrow] {\myarrow}; &  \node[arrow] {\myarrow}; \\
+    \node[case cipher] {}; & \node[case cipher] {}; & \node[case cipher] {}; & \node[case cipher] {}; & \node[case cipher] {}; &
+    \node[case cipher] {}; & \node[case cipher] {}; & \node[case cipher] {}; \\
+  };
+  \node[fit=(bloc milieu BC)(bloc milieu ciphertext)(bloc milieu plaintext)] (bloc milieu){};
+  \node[fit=(bloc milieu BC)(bloc milieu ciphertext)(bloc milieu plaintext)(bloc milieu key)] (bloc milieu full){};
+  %%---
+
+  \draw[->, ultra thick]  ([yshift=-7pt]plaintext.south) -- ([yshift=2pt] bloc milieu plaintext.north);
+
+
+  %%---left block
+  \matrix (bloc gauche plaintext)  [table, left = 7em of bloc milieu plaintext]{
+    \node[case] {}; & \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; \\
+    \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; &
+    \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; & \node[arrow] {\myarrow};\\
+  };
+
+  \node[BC, below=0pt of bloc gauche plaintext] (bloc gauche BC) {Block Cipher Encryption};
+  \node[key, left=1em of bloc gauche BC] (bloc gauche key) {$K$};
+  \draw[->, thick] (bloc gauche key) -- (bloc gauche BC);
+
+  \matrix (bloc gauche ciphertext)  [table, below=0pt of bloc gauche BC]{
+    \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; &
+    \node[arrow] {\myarrow}; &  \node[arrow] {\myarrow}; &  \node[arrow] {\myarrow}; &  \node[arrow] {\myarrow}; \\
+    \node[case cipher] {}; & \node[case cipher] {}; & \node[case cipher] {}; & \node[case cipher] {}; & \node[case cipher] {}; &
+    \node[case cipher] {}; & \node[case cipher] {}; & \node[case cipher] {}; \\
+  };
+  \node[fit=(bloc gauche BC)(bloc gauche ciphertext)(bloc gauche plaintext)] (bloc gauche){};
+  \node[fit=(bloc gauche BC)(bloc gauche ciphertext)(bloc gauche plaintext)(bloc gauche key)] (bloc gauche full){};
+  %%---
+
+  \draw[->, ultra thick]  ([yshift=-7pt] middlecase1.south) -- ([yshift=2pt]bloc gauche plaintext.north east);
+
+
+  %%---right block
+  \matrix (bloc droit plaintext)  [table, right = 7em of bloc milieu plaintext]{
+    \node[case] {}; & \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; \\
+    \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; &
+    \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; & \node[arrow] {\myarrow};\\
+  };
+
+  \node[BC, below=0pt of bloc droit plaintext] (bloc droit BC) {Block Cipher Encryption};
+  \node[key, left=1em of bloc droit BC] (bloc droit key) {$K$};
+  \draw[->, thick] (bloc droit key) -- (bloc droit BC);
+
+  \matrix (bloc droit ciphertext)  [table, below=0pt of bloc droit BC]{
+    \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; & \node[arrow] {\myarrow}; &
+    \node[arrow] {\myarrow}; &  \node[arrow] {\myarrow}; &  \node[arrow] {\myarrow}; &  \node[arrow] {\myarrow}; \\
+    \node[case cipher] {}; & \node[case cipher] {}; & \node[case cipher] {}; & \node[case cipher] {}; & \node[case cipher] {}; &
+    \node[case cipher] {}; & \node[case cipher] {}; & \node[case cipher] {}; \\
+  };
+  \node[fit=(bloc droit BC)(bloc droit ciphertext)(bloc droit plaintext)] (bloc droit){};
+  \node[fit=(bloc droit BC)(bloc droit ciphertext)(bloc droit plaintext)(bloc droit key)] (bloc droit full){};
+  %%---
+
+  \draw[->, ultra thick]  ([yshift=-7pt] middlecase2.south) -- ([yshift=2pt]bloc droit plaintext.north west);
+
+
+  %%--- full ciphertext
+  \matrix (ciphertext) [table, below of=bloc milieu ciphertext]{
+    \node[case cipher] (leftcase1cipher) {}; &  \node[case cipher] {}; &  \node[case cipher] {}; &  \node[case cipher] (middlecase1cipher) {}; &  \node[case cipher] {}; & \node[case cipher] {}; &
+    \node[case cipher] {}; & \node[case cipher] (rightcase1cipher) {}; &  \node[case cipher] (leftcase2cipher) {}; &  \node[case cipher] {}; & \node[case cipher] {}; &  
+    \node[case cipher] {}; & \node[case cipher] {}; &  \node[case cipher] {}; &  \node[case cipher] {}; &  \node[case cipher] (rightcase2cipher) {}; & \node[case cipher] (leftcase3cipher) {}; &
+    \node[case cipher] {}; & \node[case cipher] {}; &  \node[case cipher] {}; &  \node[case cipher] (middlecase2cipher) {}; &  \node[case cipher] {}; & \node[case cipher] {}; & \node[case cipher] (rightcase3cipher) {}; \\
+  };
+  \draw[decorate, decoration=brace, very thick] ([yshift=1pt,xshift=1pt]leftcase1cipher.north west) -- ([yshift=1pt,xshift=-1pt]rightcase1cipher.north east);
+  \draw[decorate, decoration=brace, very thick] ([yshift=1pt,xshift=1pt]leftcase2cipher.north west) -- ([yshift=1pt,xshift=-1pt]rightcase2cipher.north east);
+  \draw[decorate, decoration=brace, very thick] ([yshift=1pt,xshift=1pt]leftcase3cipher.north west)  -- ([yshift=1pt,xshift=-1pt]rightcase3cipher.north east);
+
+  \node (ciphertext label) [below = 1pt of ciphertext] {Ciphertext};
+  %%---
+
+  \draw[->, ultra thick]  ([yshift=-2pt] bloc droit ciphertext.south west)  -- ([yshift=7pt] middlecase2cipher.north);
+  \draw[->, ultra thick]  ([yshift=-2pt] bloc gauche ciphertext.south east)  -- ([yshift=7pt] middlecase1cipher.north);
+  \draw[->, ultra thick]  ([yshift=-2pt] bloc milieu ciphertext.south)  -- ([yshift=7pt] ciphertext.north);
+
+\end{tikzpicture}
+\end{document}

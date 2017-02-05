@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage{tikz}
+
+
+\usepackage[utf8]{inputenc}
+
+\usetikzlibrary{backgrounds,calc,shapes.symbols}
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+
+\pgfplotstableread[col sep=tab]{freq.txt}\datatable
+\makeatletter
+\pgfplotsset{
+    /pgfplots/flexible xticklabels from table/.code n args={3}{%
+        \pgfplotstableread[#3]{#1}\coordinate@table
+        \pgfplotstablegetcolumn{#2}\of{\coordinate@table}\to\pgfplots@xticklabels
+        \let\pgfplots@xticklabel=\pgfplots@user@ticklabel@list@x
+    }
+}
+
+\pgfplotsset{compat=1.8}
+
+\makeatother
+\begin{document}
+\sffamily\large
+\begin{tikzpicture}
+  \begin{axis}[ybar,ymin=0,xmin=-1, bar width=.75, xscale=2, xmax=25, ymax =16,
+    axis x line*=bottom,
+    axis y line=left,
+    ylabel=French Letter Frequency (\%),
+    flexible xticklabels from table={freq.txt}{Lettre}{col sep=tab},
+    xticklabel style={text height=1.5ex}, %% make sure xlabel are verticaly aligned
+    xtick=data
+    % nodes near coords, %% value on top of bars
+    % nodes near coords align={vertical}
+    ]
+    
+    \addplot table[x expr=\coordindex,y=Pourcentage]{\datatable};
+  \end{axis}
+\end{tikzpicture}
+\end{document}

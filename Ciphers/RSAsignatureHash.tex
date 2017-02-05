@@ -1,0 +1,92 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+
+
+\usetikzlibrary{backgrounds,calc,shapes,shapes.symbols, fit}
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+\definecolor{Blue}{RGB}{0,81,158}
+\definecolor{Violet}{RGB}{165,51,136}
+\definecolor{Orange}{RGB}{233,93,45}
+\definecolor{VioletBlue}{RGB}{87,35,129}
+\definecolor{Red}{RGB}{226,0,43}
+\definecolor{Violet}{RGB}{165,51,136}
+\definecolor{Green}{RGB}{0,134,51}
+\definecolor{Average}{RGB}{124,164,33}
+\definecolor{Magenta}{cmyk}{0,0.9,0,0}
+\definecolor{OrangeYellow}{RGB}{238,127,0}
+
+\tikzset{ 
+  table/.style={
+    matrix,
+    % row sep=-\pgflinewidth,
+    column sep=-\pgflinewidth,
+    nodes={rectangle},
+  }
+}
+
+
+\begin{document}
+\sffamily
+\begin{tikzpicture}[node distance=2.3cm,>=latex]
+
+  %% SENDER
+  \begin{scope}[node distance=1cm,>=latex]
+    \node[draw, fill=red!50] (RSA1) {Encrypt};
+    \node[draw, fill=Orange!80, below of=RSA1] (RSAout1) {Signature};
+    \node[draw, fill=VioletBlue!50, above of=RSA1] (H1) {Hash};
+    \node[draw, fill=Blue!50, above of=H1] (Plain1) {Message};
+
+    \draw[->] (Plain1) -- (H1);
+    \draw[->] (H1) --  (RSA1);
+    \draw[->] (RSA1) -- (RSAout1);
+  \end{scope}
+    \node[red, left of=RSA1, text width=1.5cm, text centered] (K1) {Sender's $SK$};
+    \draw[->] (K1) -- (RSA1);
+
+    \node[fit=(RSA1)(K1)(RSAout1)(Plain1), draw, inner sep=5pt] (Sender) {};
+    \node at (Sender.north) [above, inner sep=3mm] {\textbf{Sender}};
+
+  %% CHANNEL
+  \begin{scope}[node distance=3cm]
+    \node[draw, right of = Plain1, fill=Blue!50] (Plain2) {Message};
+    \node[draw, fill=Orange!80, right of=RSAout1] (RSAout2) {Signature};
+  \end{scope}
+    \draw[->] (RSAout1) -- (RSAout2);
+    \draw[->] (Plain1) -- (Plain2);
+
+    \node[fit=(RSAout2)(Plain2), draw, dashed, inner sep=5pt] (Channel) {}; 
+    \node at (Channel.north) [above, inner sep=3mm] {\textbf{Channel}};
+
+  %% RECEIVER
+  \begin{scope}[node distance=2cm,>=latex]
+    \begin{scope}[node distance=5.3cm]
+      \node[draw, fill=Green!50, right of = RSAout2] (RSA3) {Decrypt};
+      \node[draw, fill=VioletBlue!50, right of=Plain2] (H3) {Hash};
+    \end{scope}
+    \begin{scope}[node distance=2.5cm]
+      \node[draw, fill=Orange!80, left of=RSA3] (RSAout3) {Signature};
+    \end{scope}
+    \node[draw, fill=Blue!50, left of = H3] (Plain3) {Message};
+    \node (test) at ($(H3)!0.5!(RSA3)$) {$=$?};
+  \end{scope}
+
+  \begin{scope}[node distance=1.5cm]
+    \node[Green, below of=RSA3, text width=1.5cm, text centered] (K3) {Sender's $PK$};
+  \end{scope}
+
+  \node[fit=(Plain3)(RSA3)(K3)(RSAout3)(RSA3)(test), draw, inner sep=5pt] (Receiver) {};
+  \node at (Receiver.north) [above, inner sep=3mm] {\textbf{Receiver}};
+
+  \draw[->] (K3) -- (RSA3);
+  \draw[->] (RSAout2) -- (RSAout3);
+  \draw[->] (Plain2) -- (Plain3);
+  \draw[->] (Plain3) -- (H3);
+  \draw[->] (RSAout3) -- (RSA3);
+  \draw[->] (RSA3) -- (test);
+  \draw[->] (H3) -- (test);
+  \draw[->] (Plain2) -- (Plain3);
+\end{tikzpicture}
+\end{document}

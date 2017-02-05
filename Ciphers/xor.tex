@@ -1,0 +1,97 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{backgrounds,calc,shapes.symbols}
+
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+
+\definecolor{Blue}{RGB}{0,81,158}
+\definecolor{Violet}{RGB}{165,51,136}
+\definecolor{Orange}{RGB}{233,93,45}
+\definecolor{VioletBlue}{RGB}{87,35,129}
+\definecolor{Red}{RGB}{226,0,43}
+\definecolor{Violet}{RGB}{165,51,136}
+\definecolor{Green}{RGB}{0,134,51}
+\definecolor{Average}{RGB}{124,164,33}
+\definecolor{Magenta}{cmyk}{0,0.9,0,0}
+\definecolor{OrangeYellow}{RGB}{238,127,0}
+
+\tikzset{ 
+  table/.style={
+    matrix,
+    % row sep=-\pgflinewidth,
+    column sep=-\pgflinewidth,
+    nodes={rectangle},
+  }
+}
+
+
+\begin{document}
+\ttfamily
+\begin{tikzpicture}[node distance=0.4cm,>=latex]
+  \matrix (up) [table]{
+    \node[draw, rectangle, fill=Blue!50] (M) {1}; &
+    \node[draw, rectangle, fill=Average!50] (E) {1}; &
+    \node[draw, rectangle, fill=Red!50] (S) {0}; &
+    \node[draw, rectangle, fill=Blue!50] (S2) {1}; &
+    \node[draw, rectangle, fill=Average!50] (A) {1}; &
+    \node[draw, rectangle, fill=Red!50] (G) {0}; &
+    \node[draw, rectangle, fill=Blue!50] (E2) {1}; &
+    \node[draw, rectangle, fill=Average!50] (dot) {0}; &
+    \node[draw, rectangle, fill=Red!50] (dot2) {1}; \\
+  };
+
+  \node [below of=M] {$\oplus$};
+  \node [below of=E] {$\oplus$};
+  \node [below of=S] {$\oplus$};
+  \node [below of=S2] {$\oplus$};
+  \node [below of=A] {$\oplus$};
+  \node [below of=G] {$\oplus$};
+  \node [below of=E2] {$\oplus$};
+  \node [below of=dot] {$\oplus$};
+  \node [below of=dot2] {$\oplus$};
+
+
+\begin{scope}[node distance=0.8cm]
+  \matrix (down) [table, below of = up]{
+    \node[draw, rectangle, fill=Blue!50] (K) {1}; &
+    \node[draw, rectangle, fill=Average!50] (E3) {0}; &
+    \node[draw, rectangle, fill=Red!50] (Y) {1}; &
+    \node[draw, rectangle, fill=Blue!50] (K2) {0}; &
+    \node[draw, rectangle, fill=Average!50] (E4) {0}; &
+    \node[draw, rectangle, fill=Red!50] (Y2) {0}; &
+    \node[draw, rectangle, fill=Blue!50] (K3) {1}; &
+    \node[draw, rectangle, fill=Average!50] (E5) {1}; &
+    \node[draw, rectangle, fill=Red!50] (Y3) {0}; \\
+  };
+\end{scope}
+
+  \node [below of=K] {\resizebox{1.5ex}{1ex}{$\parallel$}};
+  \node [below of=E3] {\resizebox{1.5ex}{1ex}{$\parallel$}};
+  \node [below of=Y] {\resizebox{1.5ex}{1ex}{$\parallel$}};
+  \node [below of=K2] {\resizebox{1.5ex}{1ex}{$\parallel$}};
+  \node [below of=E4] {\resizebox{1.5ex}{1ex}{$\parallel$}};
+  \node [below of=Y2] {\resizebox{1.5ex}{1ex}{$\parallel$}};
+  \node [below of=K3] {\resizebox{1.5ex}{1ex}{$\parallel$}};
+  \node [below of=E5] {\resizebox{1.5ex}{1ex}{$\parallel$}};
+  \node [below of=Y3] {\resizebox{1.5ex}{1ex}{$\parallel$}};
+
+
+\begin{scope}[node distance=0.8cm]
+  \matrix (res) [table, below of = down]{
+    \node[draw, rectangle, fill=Blue!50] (Xc) {0}; &
+    \node[draw, rectangle, fill=Average!50] (Jc) {1}; &
+    \node[draw, rectangle, fill=Red!50] (Rc) {1}; &
+    \node[draw, rectangle, fill=Blue!50](Dc) {1}; &
+    \node[draw, rectangle, fill=Average!50](Fc) {1}; &
+    \node[draw, rectangle, fill=Red!50](Fc2) {0}; &
+    \node[draw, rectangle, fill=Blue!50]    (Pc) {0}; &
+    \node[draw, rectangle, fill=Average!50]    {1}; &
+    \node[draw, rectangle, fill=Red!50]    {1}; \\
+  }; 
+\end{scope}
+
+\end{tikzpicture}
+\end{document}

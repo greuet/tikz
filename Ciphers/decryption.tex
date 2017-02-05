@@ -1,0 +1,38 @@
+\documentclass{article}
+
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+
+\definecolor{Green}{RGB}{0,134,51}
+
+\usetikzlibrary{arrows,decorations.pathmorphing, decorations.pathreplacing,
+  backgrounds,fit,positioning,shapes.symbols,chains}
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+ 
+\begin{document}
+\sffamily
+\begin{tikzpicture}[->, >=latex, shorten >=1pt, auto, node
+  distance=4cm, thick,
+  key node/.style={rectangle,fill=Green!30,draw,font=\sffamily\bfseries, text width=2cm, text centered,}, 
+  text node/.style={rectangle,draw, font=\tiny}, text width=4cm, text justified]
+
+  \node[text node] (plaintext) {If you ladies leave my island, if you survive recruit training... you will be a weapon, you will
+    be a minister of death, praying for war. But until that day you are pukes~! You're the lowest form of life on
+    Earth. You are not even human fucking beings~! You are nothing but unorganized grabasstic pieces of amphibian shit~!
+    Because I am hard, you will not like me. But the more you hate me, the more you will learn. I am hard, but I am fair~!
+    There is no rac...};
+
+  \node[key node] (key) [right of=plaintext] {Decryption\\\includegraphics[width=30pt]{key2.pdf}};
+
+  \node[text node, text width=3cm] (ciphertext) [right of=key] {Xb4kEJcoYaLyuTYsbPqHhcYCRYCdT SW9lseU8exzvfM2ytgVqWIHhQHluerr
+    SivSV0Fyjyvfg7sck1Llrr7liGS9jkpcfAW7 qq3mKWyJgvy6ZZRRvXS9tn94QRxY iq3WSpPaYSpRDqzWTAGLrooNcvcI6
+    bCCpREq5nYwqycehnenxu9BLuwNSh qqpZYBACZM2FgMCczodnDKrOiv85t U0okIfOJ4qqUL63tGfesfqLQuaVwmRb
+    zegyB9rEwrbLFf6mgImDIBXWsLJjdcz 3vqqXMuO0cAcZHQtHKrJmA0LZ5sUl RjdasgcgO6jRDkfemS1uxA6EriKfBp...};
+
+    \path (ciphertext) edge (key);
+    \path (key) edge (plaintext);
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,7 @@
+To compile Elliptic Curves pictures:
+ 1. One latex pass to generate .gnuplot file.
+    Do not care about latex errors, that's normal.
+ 2. One gnuplot pass: gnuplot <name>.pgf-plot.gnuplot.
+    It must generate the file <name>.pgf-plot.table.
+ 3. One latex pass (without errors).
+ 

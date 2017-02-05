@@ -1,0 +1,61 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usepackage[graphics,tightpage,active]{preview}
+
+\usetikzlibrary{backgrounds,calc,shapes,shapes.symbols, fit,
+  decorations.pathmorphing, decorations.pathreplacing, positioning}
+\PreviewEnvironment{tikzpicture}
+
+\definecolor{Blue}{RGB}{0,81,158}
+\definecolor{Violet}{RGB}{165,51,136}
+\definecolor{marineblue}{cmyk}{1,0.5,0,0.3}
+\definecolor{cyan}{cmyk}{0.75,0.25,0,0}
+\definecolor{Orange}{RGB}{233,93,45}
+\definecolor{OrangeYellow}{RGB}{238,127,0}
+\definecolor{Yellow}{RGB}{250,187,0}
+\definecolor{Blue}{RGB}{0,81,158}
+\definecolor{VioletBlue}{RGB}{87,35,129}
+\definecolor{Red}{RGB}{226,0,43}
+\definecolor{Violet}{RGB}{165,51,136}
+\definecolor{Average}{RGB}{124,164,33}
+\definecolor{Green}{RGB}{0,134,51}
+\definecolor{Cyan}{RGB}{0,152,215}
+
+\tikzset{message/.style={color=Blue, thick}}
+\tikzset{messageangle/.style={fill=Blue!50}}
+\tikzset{message2/.style={color=Green, thick}}
+\tikzset{message2angle/.style={fill=Green!50}}
+\tikzset{messageproduct/.style={color=Violet, thick}}
+\tikzset{messageproductangle/.style={fill=Violet!40}}
+
+\begin{document}
+\footnotesize
+\begin{tikzpicture}[>=latex, scale = 2]
+  % angles
+  \fill[messageproductangle] (0,0) -- (7mm,0pt) arc(0:140:7mm)
+  node[Violet, xshift = 12pt, yshift = 15pt, rotate = 25] {$\theta_1\!+\!\theta_2$};
+  \fill[messageangle] (0,0) -- (5mm,0pt) arc(0:55:5mm)
+  node[Blue, xshift = 14pt, yshift = -8pt] {$\theta_2$};
+  \fill[message2angle] (0,0) -- (3mm,0pt) arc(0:85:3mm)
+  node[Green, xshift = 7pt, yshift = 6pt] {$\theta_1$};
+
+  % axes
+  \draw[->, black] (-2,0) -- (1.1,0);
+  \draw[->] (0,-0.1) -- (0,2);
+
+  % vectors
+  \path node (a) at (55:1.5) {};
+  \path node (b) at (85:1.75) {};
+  \path node (ab) at (140:2.625) {};
+
+  \draw[->, message] (0,0) -- ($(a)$) node[right] {$a$};
+  \draw[->, message2] (0,0) -- ($(b)$) node[right] {$b$};
+  \draw[->, messageproduct] (0,0) -- ($(ab)$) node[right, xshift = 3pt] {$a\!\times\!b$};
+\end{tikzpicture}
+
+\end{document}
+
+% Local Variables:
+% TeX-engine: xetex
+% End:

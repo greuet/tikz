@@ -1,0 +1,102 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usepackage[graphics,tightpage,active]{preview}
+
+\usetikzlibrary{backgrounds,calc,shapes,shapes.symbols, fit,
+  decorations.pathmorphing, decorations.pathreplacing, positioning}
+\PreviewEnvironment{tikzpicture}
+
+\definecolor{Blue}{RGB}{0,81,158}
+\definecolor{Violet}{RGB}{165,51,136}
+\definecolor{marineblue}{cmyk}{1,0.5,0,0.3}
+\definecolor{cyan}{cmyk}{0.75,0.25,0,0}
+\definecolor{Orange}{RGB}{233,93,45}
+\definecolor{OrangeYellow}{RGB}{238,127,0}
+\definecolor{Yellow}{RGB}{250,187,0}
+\definecolor{Blue}{RGB}{0,81,158}
+\definecolor{VioletBlue}{RGB}{87,35,129}
+\definecolor{Red}{RGB}{226,0,43}
+\definecolor{Violet}{RGB}{165,51,136}
+\definecolor{Average}{RGB}{124,164,33}
+\definecolor{Green}{RGB}{0,134,51}
+\definecolor{Cyan}{RGB}{0,152,215}
+
+\tikzset{message/.style={color=Blue, thick}}
+\tikzset{message2/.style={color=Green, thick}}
+\tikzset{messagesum/.style={color=Violet, thick}}
+\tikzset{noise/.style={color=Orange, thick}}
+\tikzset{noise2/.style={color=Average, thick}}
+\tikzset{cipher/.style={color=Red, thick}}
+
+
+\begin{document}
+\footnotesize
+\begin{tikzpicture}[>=latex]
+  % axes
+  \draw[->] (-0.3,0) -- (3,0);
+  \draw[->] (0,-0.3) -- (0,3);
+  % points definition
+  \path node (noise) at (0.4, -0.3) {};
+  \path node (message1) at (0.75,2) {};
+  \path node (message2) at (2,1.5) {};
+  % messages
+  \draw[->, message] (0, 0) -- ($(message1)$);
+
+  % \uncover<2->{\draw[->, message2] (0, 0) -- ($(message2)$);}
+  \draw[->, message2] (0, 0) -- ($(message2)$);
+
+  % -- messages sum
+  % \uncover<5>{\draw[->, message2, dotted]  ($(message1)$) -- ($(message1)  + (message2)$);}
+  % \uncover<5>{\draw[->, message, dotted]  ($(message2)$) -- ($(message1)  + (message2)$);}
+  % \uncover<5->{\draw[->, messagesum] (0, 0) -- ($(message1)  + (message2)$);}
+  \draw[->, message2, dotted]  ($(message1)$) -- ($(message1)  + (message2)$);
+  \draw[->, message, dotted]  ($(message2)$) -- ($(message1)  + (message2)$);
+  \draw[->, messagesum] (0, 0) -- ($(message1)  + (message2)$);
+  % \uncover<7>{\draw[-, cipher, dotted] ($(message1) + 0.75*(noise)$) -- 
+  %   ($(message1) + (message2)+2*(noise)$);}
+  % \uncover<7>{\draw[-, cipher, dotted] ($(message2) + 1.25*(noise)$) --
+  %   ($(message1)  + (message2)+2*(noise)$);}
+  \draw[-, cipher, dotted] ($(message1) + 0.75*(noise)$) -- 
+  ($(message1) + (message2)+2*(noise)$);
+  \draw[-, cipher, dotted] ($(message2) + 1.25*(noise)$) --
+  ($(message1)  + (message2)+2*(noise)$);
+  % --
+  % -- private line
+  % \uncover<3>{\draw[noise, dotted] ($(message1)$)  -- ++ ($5*(noise)$);}
+  % \uncover<3>{\draw[noise, dotted] ($(message1)$)  -- ++ ($-2*(noise)$);}
+  % \uncover<3>{\draw[noise, dotted] ($(message2)$)  -- ++ ($2*(noise)$);}
+  % \uncover<3>{\draw[noise, dotted] ($(message2)$)  -- ++ ($-5*(noise)$);}
+  \draw[noise, dotted] ($(message1)$)  -- ++ ($5*(noise)$);
+  \draw[noise, dotted] ($(message1)$)  -- ++ ($-2*(noise)$);
+  \draw[noise, dotted] ($(message2)$)  -- ++ ($2*(noise)$);
+  \draw[noise, dotted] ($(message2)$)  -- ++ ($-5*(noise)$);
+  % --
+  % noise
+  \draw[->, noise] ($(message1)$)  -- ++ ($0.75*(noise)$);
+  % \uncover<2->{\draw[->, noise2] ($(message2)$)  -- ++ ($1.25*(noise)$);}
+  \draw[->, noise2] ($(message2)$)  -- ++ ($1.25*(noise)$);
+  % \uncover<9->{\draw[->, noise] ($(message1) + (message2)$)
+  %   -- ++ ($2*(noise)$);}
+  % \uncover<9->{\draw[->, noise] ($(message1) + (message2) + (0.05, 0.1)$) --
+  %   ($(message1) + (message2) + 0.75*(noise) + (0.05, 0.1)$);}
+  % \uncover<9->{\draw[->, noise2] ($(message1) + 
+  % (message2) + 0.75*(noise) + (0.05, 0.1)$)
+  %   -- ($(message1) + (message2) + 2*(noise) + (0.05, 0.1)$);}
+  \draw[->, noise] ($(message1) + (message2)$) -- ++ ($2*(noise)$);
+  \draw[->, noise] ($(message1) + (message2) + (0.05, 0.1)$) --
+    ($(message1) + (message2) + 0.75*(noise) + (0.05, 0.1)$);
+  \draw[->, noise2] ($(message1) + (message2) + 0.75*(noise) + (0.05, 0.1)$)
+    -- ($(message1) + (message2) + 2*(noise) + (0.05, 0.1)$);
+  % cipher
+  \draw[->, cipher] (0,0) --  ($(message1)  + 0.75*(noise)$);
+  % \uncover<2->{\draw[->, cipher] (0,0) --  ($(message2)  + 1.25*(noise)$);}
+  \draw[->, cipher] (0,0) --  ($(message2)  + 1.25*(noise)$);
+  % \uncover<7->{\draw[->, cipher] (0,0) --  ($(message1) + (message2) + 2*(noise)$);}
+  \draw[->, cipher] (0,0) --  ($(message1) + (message2) + 2*(noise)$);
+\end{tikzpicture}
+\end{document}
+
+% Local Variables:
+% TeX-engine: xetex
+% End:

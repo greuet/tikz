@@ -1,0 +1,27 @@
+\documentclass{article}
+
+
+
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+
+\usetikzlibrary{backgrounds,calc,shapes,shapes.symbols, fit,
+  decorations.pathmorphing, decorations.pathreplacing, positioning}
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+
+\tikzset{leaf/.style={draw = orange!50, fill = orange!50, nodes={rectangle}}}
+\tikzset{mynode/.style={draw = blue!50, fill = blue!50, circle}}
+\tikzset{pub/.style={fill = green!50, draw = green!50, rectangle, rounded corners}}
+
+\begin{document}
+
+\begin{tikzpicture}
+  \sffamily
+  \node[leaf] (leaf) {};
+  \node[right = 1pt of leaf] {\small OTS};
+  \node[mynode, below = 1.5pt of leaf] (mynode) {};
+  \node[right = -0.5pt of mynode] {\small Hash};
+\end{tikzpicture}
+\end{document}

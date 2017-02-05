@@ -1,0 +1,33 @@
+\documentclass{article}
+
+
+
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+
+\usetikzlibrary{backgrounds,calc,shapes,shapes.symbols, fit,
+  decorations.pathmorphing, decorations.pathreplacing, positioning}
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+
+\tikzset{leaf/.style={draw = orange!50, fill = orange!50, nodes={rectangle}}}
+\tikzset{leaftheone/.style={draw = orange, fill = orange, nodes={rectangle}}}
+\tikzset{nodepub/.style={draw = green, fill = green, regular polygon,regular polygon sides=6}}
+\tikzset{mynode/.style={draw = blue!50, fill = blue!50, circle}}
+\tikzset{mynodetheone/.style={draw = blue, fill = blue, circle}}
+\tikzset{pub/.style={fill = green!50, draw = green!50, rectangle, rounded corners}}
+
+\begin{document}
+
+\begin{tikzpicture}[yscale=-1,level/.style={sibling distance = 3cm/#1, level distance = 0.6cm}, 
+  edge from parent path={(\tikzparentnode.north) -- ++(0,-0.12cm)-|(\tikzchildnode.south)}]
+  \sffamily
+  \node[leaf] (leaf) {};
+  \node[right = 1pt of leaf] {\small OTS for msg};
+  \node[mynode, below = 1.5pt of leaf] (mynode) {};
+  \node[right = -0.5pt of mynode] {\small Hash + OTS for pk};
+  \node[nodepub, below = 1.5pt of mynode] (nodepub) {};
+  \node[right = -0.5pt of nodepub] {\small OTS pk};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,221 @@
+\documentclass{article}
+
+
+
+\newcommand{\treeauth}[1]{
+  \begin{tikzpicture}[yscale=-1,level/.style={level distance = 0.5cm}]
+    \node[outer sep = 0, inner sep = 0] (root#1) {}
+    child { node[mynodetheone] {}
+      child[sibling distance = 0.7cm] { node[mynodetheone] {}
+        child[sibling distance = 0.35cm] { node[leaf] {}
+          child { node (topleftnode#1) {}
+            child{ node[leaf] (leftmsg#1) {} }
+          }
+        }
+        child[sibling distance = 0.35cm] { node[leaf] {}
+          child { node (sectopleftnode#1) {}
+            child{ node[leaf] (secleftmsg#1) {} }
+          }
+        }
+      }
+      child[sibling distance = 0.7cm] { node[mynode] {}
+        child[sibling distance = 0.35cm] { node[leaftheone] {}
+          child { node (sectoprightnode#1) {}
+            child{ node[leaftheone] (secrightmsg#1) {} }
+          }
+        }
+        child[sibling distance = 0.35cm] { node[leaftheone] {}
+          child { node (toprightnode#1) {}
+              child{ node[leaf] (rightmsg#1) {} }
+            }
+        }
+      }
+    };
+    \node[left = 15pt of topleftnode#1.south, outer sep = 0, inner sep = 0] (top left#1) {};
+    \node[right = 15pt of toprightnode#1.south, outer sep = 0, inner sep = 0] (top right#1) {};
+    \draw (root#1) -- (top left#1) -- (top right#1) -- (root#1);
+
+    \draw (leftmsg#1) -- (topleftnode#1.south);
+    \draw (secleftmsg#1) -- (sectopleftnode#1.south);
+    \draw (rightmsg#1) -- (toprightnode#1.south);
+    \draw (secrightmsg#1) -- (sectoprightnode#1.south);
+  \end{tikzpicture}
+}
+\newcommand{\tree}[1]{
+  \begin{tikzpicture}[yscale=-1,level/.style={level distance = 0.5cm}]
+    \node[outer sep = 0, inner sep = 0] (root#1) {}
+    child { node[mynode] {}
+      child[sibling distance = 0.7cm] { node[mynode] {}
+        child[sibling distance = 0.35cm] { node[leaf] {}
+          child { node (topleftnode#1) {}
+            child{ node[leaf] (leftmsg#1) {} }
+          }
+        }
+        child[sibling distance = 0.35cm] { node[leaf] {}
+          child { node (sectopleftnode#1) {}
+            child{ node[leaf] (secleftmsg#1) {} }
+          }
+        }
+      }
+      child[sibling distance = 0.7cm] { node[mynode] {}
+        child[sibling distance = 0.35cm] { node[leaf] {}
+          child { node (sectoprightnode#1) {}
+            child{ node[leaf] (secrightmsg#1) {} }
+          }
+        }
+        child[sibling distance = 0.35cm] { node[leaf] {}
+          child { node (toprightnode#1) {}
+              child{ node[leaf] (rightmsg#1) {} }
+            }
+        }
+      }
+    };
+    \node[left = 15pt of topleftnode#1.south, outer sep = 0, inner sep = 0] (top left#1) {};
+    \node[right = 15pt of toprightnode#1.south, outer sep = 0, inner sep = 0] (top right#1) {};
+    \draw (root#1) -- (top left#1) -- (top right#1) -- (root#1);
+
+    \draw (leftmsg#1) -- (topleftnode#1.south);
+    \draw (secleftmsg#1) -- (sectopleftnode#1.south);
+    \draw (rightmsg#1) -- (toprightnode#1.south);
+    \draw (secrightmsg#1) -- (sectoprightnode#1.south);
+  \end{tikzpicture}
+}
+
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+
+\usetikzlibrary{backgrounds,calc,shapes,shapes.symbols, fit,
+  decorations.pathmorphing, decorations.pathreplacing, positioning}
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+
+\tikzset{leaf/.style={draw = orange!50, fill = orange!50, nodes={rectangle}}}
+\tikzset{mynode/.style={draw = blue!50, fill = blue!50, circle}}
+\tikzset{leaftheone/.style={draw = orange, fill = orange, nodes={rectangle}}}
+\tikzset{mynodetheone/.style={draw = blue, fill = blue, circle}}
+\tikzset{mynodetriangle/.style={draw = blue!50, regular polygon,regular polygon sides=3,
+  shape border rotate=180}}
+\tikzset{pub/.style={fill = green!50, draw = green!50, rectangle, rounded corners}}
+
+\begin{document}
+
+\begin{tikzpicture}[yscale=-1,level/.style={sibling distance = 4cm/#1, level distance = 0.5cm}, 
+  node distance = 6.4cm
+  % edge from parent path={(\tikzparentnode.north) -- ++(0,-0.12cm)-|(\tikzchildnode.south)}
+  ]
+  \sffamily
+
+  \node (merkle bas) {
+    \begin{tikzpicture}[yscale=-1,level/.style={sibling distance = 4cm/#1, level distance = 0.5cm}]
+      \node[outer sep = 0, inner sep = 0] (root) {}
+      child { node[mynode] {}
+        child[sibling distance = 0.7cm] { node[mynode] {}
+          child[sibling distance = 0.35cm] { node[leaftheone] {}
+            child { node (top left node) {}}
+          }
+          child[sibling distance = 0.35cm] { node[leaf] {}
+            child { node (sec top left node) {}}
+          }
+        }
+        child[sibling distance = 0.7cm] { node[mynode] {}
+          child[sibling distance = 0.35cm] { node[leaf] {}
+            child { node (sec top right node) {}}
+          }
+          child[sibling distance = 0.35cm] { node[leaf] {}
+            child { node (top right node) {}}
+          }
+        }
+      };
+      \node[left = 15pt of top left node.south, outer sep = 0, inner sep = 0] (top left) {};
+      \node[right = 15pt of top right node.south, outer sep = 0, inner sep = 0] (top right) {};
+      \draw (root) -- (top left) -- (top right) -- (root);
+    \end{tikzpicture}};
+
+  \node[yshift = -1cm, above left of = merkle bas] (merkle 1) {\treeauth{1}};
+
+
+  \begin{scope}[node distance = 3cm]
+    \node[right of = merkle 1] (merkle 2) {\tree{2}};
+    \node[right of = merkle 2] (merkle 3) {\tree{3}};
+    \node[right of = merkle 3] (merkle 4) {\tree{4}};
+    \node[yshift = 1.2cm, pub, below of = merkle bas] (public key) {Public Key};
+  \end{scope}
+
+
+  \draw ([yshift = -1.6mm]merkle 1.south) -- ([yshift = 1.05cm]top left node.south);
+  \draw ([yshift = -1.6mm]merkle 2.south) -- ([yshift = 1.05cm]sec top left node.south);
+  \draw ([yshift = -1.6mm]merkle 3.south) -- ([yshift = 1.05cm]sec top right node.south);
+  \draw ([yshift = -1.6mm]merkle 4.south) -- ([yshift = 1.05cm]top right node.south);
+  \draw ([yshift = 1cm]root.south) -- (public key);
+
+
+\end{tikzpicture}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+  \node (merkle bas) {
+    \begin{tikzpicture}[yscale=-1,level/.style={sibling distance = 4cm/#1, level distance = 0.5cm}]
+      \node[outer sep = 0, inner sep = 0] (root) {}
+      child { node[mynode] {}
+        child[sibling distance = 0.7cm] { node[mynode] {}
+          child[sibling distance = 0.35cm] { node[leaf] {}
+            child { node (top left node) {}}
+          }
+          child[sibling distance = 0.35cm] { node[leaf] {}
+            child { node {}}
+          }
+        }
+        child[sibling distance = 0.7cm] { node[mynode] {}
+          child[sibling distance = 0.35cm] { node[leaf] {}
+            child { node {}}
+          }
+          child[sibling distance = 0.35cm] { node[leaf] {}
+            child { node (top right node) {}}
+          }
+        }
+      };
+      \node[left = 15pt of top left node.south, outer sep = 0, inner sep = 0] (top left) {};
+      \node[right = 15pt of top right node.south, outer sep = 0, inner sep = 0] (top right) {};
+      \draw (root) -- (top left) -- (top right) -- (root);
+    \end{tikzpicture}};
+
+  \node[above left of = merkle bas]{
+    \begin{tikzpicture}[yscale=-1,level/.style={sibling distance = 4cm/#1, level distance = 0.5cm}]
+      \node[outer sep = 0, inner sep = 0] (root1) {}
+      child { node[mynode] {}
+        child[sibling distance = 0.7cm] { node[mynode] {}
+          child[sibling distance = 0.35cm] { node[leaf] {}
+            child { node (top left node1) {}}
+          }
+          child[sibling distance = 0.35cm] { node[leaf] {}
+            child { node {}}
+          }
+        }
+        child[sibling distance = 0.7cm] { node[mynode] {}
+          child[sibling distance = 0.35cm] { node[leaf] {}
+            child { node {}}
+          }
+          child[sibling distance = 0.35cm] { node[leaf] {}
+            child { node (top right node1) {}}
+          }
+        }
+      };
+      \node[left = 15pt of top left node1.south, outer sep = 0, inner sep = 0] (top left1) {};
+      \node[right = 15pt of top right node1.south, outer sep = 0, inner sep = 0] (top right1) {};
+      \draw (root1) -- (top left1) -- (top right1) -- (root1);
+    \end{tikzpicture}};
+\end{tikzpicture}
+
+
+

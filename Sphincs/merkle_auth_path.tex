@@ -1,0 +1,64 @@
+\documentclass{article}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+
+\usetikzlibrary{backgrounds,calc,shapes,shapes.symbols, fit,
+  decorations.pathmorphing, decorations.pathreplacing, positioning}
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+
+\tikzset{leaf/.style={draw = orange!50, fill = orange!50, nodes={rectangle}}}
+\tikzset{leaftheone/.style={draw = green, fill = green, nodes={rectangle}}}
+\tikzset{leafauth/.style={draw = orange, fill = orange, nodes={rectangle}}}
+\tikzset{mynode/.style={draw = blue!50, fill = blue!50, circle}}
+\tikzset{mynodeauth/.style={draw = blue, fill = blue, circle}}
+\tikzset{pub/.style={fill = green!50, draw = green!50, rectangle, rounded corners}}
+
+\begin{document}
+
+\begin{tikzpicture}[yscale=-1,level/.style={sibling distance = 3cm/#1, level distance = 0.5cm}, 
+  edge from parent path={(\tikzparentnode.north) -- ++(0,-0.08cm)-|(\tikzchildnode.south)}]
+  \sffamily
+  \node[pub] (public key) {\tiny Public Key}
+    child { node[mynode] {} 
+      child[sibling distance = 2.5cm] { node[mynode] {} 
+        child[sibling distance = 1.25cm] { node[mynodeauth] {}
+          child[sibling distance = 0.6cm] { node[leaf] {}}
+          child[sibling distance = 0.6cm] { node[leaf] {}}
+        }
+        child[sibling distance = 1.25cm] { node[mynode] {}
+          child[sibling distance = 0.6cm] { node[leaftheone] {}
+            child[level distance = 0.4cm] { node[leafauth,inner sep = 1pt, outer sep = 0] {\tiny Msg}}
+                  }
+          child[sibling distance = 0.6cm] { node[leafauth] {}}
+        }
+      }
+      child[sibling distance = 2.5cm] { node[mynodeauth] {}
+        child[sibling distance = 1.25cm] { node[mynode] {}
+          child[sibling distance = 0.6cm] { node[leaf] {}}
+          child[sibling distance = 0.6cm] { node[leaf] {}}
+        }
+        child[sibling distance = 1.25cm] { node[mynode] {}
+          child[sibling distance = 0.6cm] { node[leaf] {}}
+          child[sibling distance = 0.6cm] { node[leaf] {}}
+        }
+      }
+  };
+
+  \node [right = 0.4cm of public key] {
+    \scalebox{0.5}{
+      \begin{tikzpicture}
+        \node[leaf] (leaf) {};
+        \node[right = 1pt of leaf] {\small OTS for msg};
+        \node[mynode, below = 1.5pt of leaf] (mynode) {};
+        \node[right = -0.5pt of mynode] {\small Hash};
+        \node[pub, below = 1.5pt of mynode] (nodepub) {};
+        \node[right = 1pt of nodepub] {\small OTS pk};
+      \end{tikzpicture}
+    }
+  };
+\end{tikzpicture}
+\end{document}

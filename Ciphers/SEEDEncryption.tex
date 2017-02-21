@@ -1,0 +1,123 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+
+\usetikzlibrary{backgrounds,calc,shapes,shapes.symbols, fit,
+  decorations.pathmorphing, decorations.pathreplacing, positioning}
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+
+\definecolor{Blue}{RGB}{0,81,158}
+\definecolor{Violet}{RGB}{165,51,136}
+\definecolor{Orange}{RGB}{233,93,45}
+\definecolor{Red}{RGB}{226,0,43}
+\definecolor{Green}{RGB}{0,134,51}
+
+
+\tikzset{box large/.style={draw, nodes={rectangle}, text width = 6cm, text centered}}
+\tikzset{box rounded/.style={draw, nodes={rectangle}, rounded corners = 5pt,
+    text width = 4cm, text centered}}
+\tikzset{box/.style={draw, nodes={rectangle}, text width = 3.3cm, text centered,
+    minimum height = 0.6cm}}
+\tikzset{xor/.style={inner sep=0pt}}
+
+\begin{document}
+\sffamily
+\begin{tikzpicture}[node distance = 2cm,>=latex]
+  \begin{scope}[node distance = 1.2cm]
+    \node[box large] (input) {Input};
+    \node[box, below = of input.west] (L0) {$L_0$};
+    \node[box, below = of input.east] (R0) {$R_0$};
+    \node (xor0) [xor, below of = L0] {\LARGE $\oplus$};
+    \node (noderight0) [below of = R0] {};
+    \coordinate (middle0) at ($(L0)!0.5!(R0)$);
+    \node[circle, draw, color = Orange] (f0) [below of = middle0] {$F$};
+    \node (K1) [below right = 5pt and 10pt of R0.east, color = Red] {$K_1$};
+    % to center Input and Output blocks
+    \node (phantom) [below left = 5pt and 10pt of L0.west, transparent] {$K_1$};
+  \end{scope}
+  \draw[->, thick] (input) |- ($(input)!0.5!(L0)$) -| (L0.north);
+  \draw[->, thick] (input) |- ($(input)!0.5!(R0)$) -| (R0.north);
+  \draw[->, thick, color = Red] (K1) -| (f0);
+
+  \node[box, below = of L0] (L1) {$L_1 = R_0$};
+  \node[box, below = of R0] (R1) {$R_1\!=\!L_0 \oplus F(R_0, K_1)$};
+
+  \draw[->, thick, color = Green] (L0) -- (xor0);
+  \draw[->, thick, Violet] (xor0) |- ++ (0, -0.4) -- ($(R1) - (0, -0.6)$) -| (R1);
+  \draw[->, thick, color = Blue] (R0) -- ($(noderight0) + (0, -0.4)$)
+  -- ($(L1) - (0, -0.6)$) -| (L1);
+  \draw[->, thick, color = Blue] ($(noderight0)$) -- (f0);
+  \draw[->, thick, color = Orange] (f0) -- (xor0);
+
+
+  \node (K2) [below right = 5pt and 10pt of R1.east, color = Red] {$K_2$};
+  \coordinate (middle1) at ($(L1)!0.5!(R1)$);
+  \begin{scope}[node distance = 1.2cm]
+    \node[circle, draw, color = Orange](f1) [below of = middle1] {$F$};
+    \node (xor1) [xor, below of = L1] {\LARGE $\oplus$};
+    \node (noderight1) [below of = R1] {};
+  \end{scope}
+
+  \node[box, below = of L1] (L2) {$L_2 = R_1$};
+  \node[box, below = of R1] (R2) {$R_2\!=\!L_1 \oplus F(R_1, K_2)$};
+
+  \draw[->, thick, color = Red] (K2) -| (f1);
+  \draw[->, thick, color = Green] (L1) -- (xor1);
+  \draw[->, thick, Violet] (xor1) |- ++ (0, -0.4) -- ($(R2) - (0, -0.6)$) -| (R2);
+  \draw[->, thick, color = Blue] (R1) -- ($(noderight1) + (0, -0.4)$)
+  -- ($(L2) - (0, -0.6)$) -| (L2);
+  \draw[->, thick, color = Blue] ($(noderight1)$) -- (f1);
+  \draw[->, thick, color = Orange] (f1) -- (xor1);
+
+
+  \node (K3) [below right = 5pt and 10pt of R2.east, color = Red] {$K_3$};
+  \coordinate (middlei) at ($(L2)!0.5!(R2)$);
+  \begin{scope}[node distance = 1.2cm]
+    \node[circle, draw, color = Orange](fi) [below of = middlei] {$F$};
+    \node (xori) [xor, below of = L2] {\LARGE $\oplus$};
+    \node (noderighti) [below of = R2] {};
+  \end{scope}
+
+  \begin{scope}[node distance = 3cm]
+    \node[box, below = of L2] (L15) {$L_{15} = R_{14}$};
+    \node[box, below = of R2] (R15) {$\!R_{15}\!\!=\!\!L_{14}\oplus F(\!R_{14}, K_{15}\!)\!$};
+  \end{scope}
+
+  \draw[->, thick, color = Red] (K3) -| (fi);
+  \draw[->, thick, color = Green] (L2) -- (xori);
+  \draw[thick, Violet] (xori) |- ++ (0, -0.4);
+  \draw[->, thick, Violet, dashed] ($(xori) + (0, -0.4)$) -- ($(R15) - (0, -0.6)$)
+  -| (R15);
+  \draw[thick, color = Blue] (R2) -- ($(noderighti) + (0, -0.4)$);
+  \draw[->, thick, dashed, color = Blue] ($(noderighti) + (0, -0.4)$) -- 
+  ($(L15) - (0, -0.6)$) -| (L15);
+  \draw[->, thick, color = Blue] ($(noderighti)$) -- (fi);
+  \draw[->, thick, color = Orange] (fi) -- (xori);
+
+  \node (K16) [below right = 5pt and 10pt of R15.east, color = Red] {$K_{16}$};
+  \coordinate (middle15) at ($(L15)!0.5!(R15)$);
+  \begin{scope}[node distance = 1.2cm]
+    \node[circle, draw, color = Orange](f15) [below of = middle15] {$F$};
+    \node (xor15) [xor, below of = L15] {\LARGE $\oplus$};
+    \node (noderight1) [below of = R15] {};
+  \end{scope}
+
+  \node[box, below = of L15] (L16) {$\!R_{16}\!\!=\!\!L_{15}\oplus F(\!R_{15},K_{16}\!)\!$};
+  \node[box, below = of R15] (R16) {$L_{16}=L_{15}$};
+
+  \draw[->, thick, color = Red] (K16) -| (f15);
+  \draw[->, thick, color = Green] (L15) -- (xor15);
+  \draw[->, thick, Violet] (xor15) -- (L16);
+  \draw[->, thick, color = Blue] (R15) -- (R16);
+  \draw[->, thick, color = Blue] ($(noderight1)$) -- (f15);
+  \draw[->, thick, color = Orange] (f15) -- (xor15);
+
+  \coordinate (middle16) at ($(L16)!0.5!(R16)$);
+  \node[box large, below of = middle16] (output) {Output};
+
+  \draw[<-, thick] (output) |- ($(output)!0.5!(L16)$) -| (L16.south);
+  \draw[<-,thick] (output) |- ($(output)!0.5!(R16)$) -| (R16.south);
+\end{tikzpicture}
+\end{document}

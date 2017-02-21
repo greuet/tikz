@@ -1,0 +1,96 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+
+
+\usetikzlibrary{backgrounds,calc,shapes,shapes.symbols, fit,
+  decorations.pathmorphing, decorations.pathreplacing, positioning}
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+
+\definecolor{Blue}{RGB}{0,81,158}
+\definecolor{Orange}{RGB}{233,93,45}
+\definecolor{Red}{RGB}{226,0,43}
+\definecolor{Violet}{RGB}{165,51,136}
+\definecolor{Green}{RGB}{0,134,51}
+\definecolor{VioletBlue}{RGB}{87,35,129}
+
+
+\tikzset{box large/.style={draw, nodes={rectangle}, text width = 5cm, text centered}}
+\tikzset{box rounded/.style={draw, nodes={rectangle}, rounded corners = 5pt,
+    text width = 1.8cm, text centered, color = Orange}}
+\tikzset{box/.style={draw, nodes={rectangle}, text width = 2.5cm, text centered, minimum height = 0.6cm}}
+\tikzset{xor/.style={inner sep=0pt}}
+
+\begin{document}
+\sffamily
+\begin{tikzpicture}[node distance = 1.2cm,>=latex]
+
+  \node[box large, color = Red] (key) {Key};
+  \node[box rounded, below of = key, color = VioletBlue] (PC1) {Permuted Choice 1};
+  \node[box, below left = 20pt and -15pt of PC1, color = Green] (C0) {$C_0$};
+  \node[box, below right = 20pt and -15pt of PC1, color = Blue] (D0) {$D_0$};
+  \node (LS0L) [below of = C0, box rounded] {Left Shift};
+  \node (LS0R) [below of = D0, box rounded] {Left Shift};
+
+  \draw[->, thick] (key) -- (PC1);
+  \draw[->, thick] (PC1) |- ($(PC1)!0.5!(C0)$) -| (C0.north);
+  \draw[->, thick] (PC1) |- ($(PC1)!0.5!(D0)$) -| (D0.north);
+  \draw[->, thick] (C0) -- (LS0L);
+  \draw[->, thick] (D0) -- (LS0R);
+
+  \node[box, below of = LS0L, color = Green] (C1) {$C_1$};
+  \node[box, below of = LS0R, color = Blue] (D1) {$D_1$};
+  \node (LS1L) [below of = C1, box rounded, node distance = 2.5cm] {Left Shifts};
+  \node (LS1R) [below of = D1, box rounded, node distance = 2.5cm] {Left Shifts};
+  \coordinate (middle1L) at ($(C1)!0.33!(LS1L)$);
+  \coordinate (middle1R) at ($(D1)!0.33!(LS1R)$);
+
+  \node (PC21) [box rounded, color = VioletBlue] 
+  at ($(middle1R) + (3, 0)$){Permuted Choice 2};
+  \node[right = 20pt of PC21, color = Red] (K1) {$K_1$};
+
+  \draw[->, thick] (C1) -- (middle1L) -- (PC21);
+  \draw[->, thick] (PC21) -- (K1);
+  \draw[->, thick] (D1) -- (middle1R);
+  \draw[->, thick, dashed] (middle1L) -- (LS1L);
+  \draw[->, thick, dashed] (middle1R) -- (LS1R);
+  \draw[->, thick] (LS0L) -- (C1);
+  \draw[->, thick] (LS0R) -- (D1);
+
+  \node[box, below of = LS1L, color = Green] (Ci) {$C_i$};
+  \node[box, below of = LS1R, color = Blue] (Di) {$D_i$};
+  \node (LSiL) [below of = Ci, box rounded, node distance = 2.5cm] {Left Shifts};
+  \node (LSiR) [below of = Di, box rounded, node distance = 2.5cm] {Left Shifts};
+
+  \coordinate (middleiL) at ($(Ci)!0.33!(LSiL)$);
+  \coordinate (middleiR) at ($(Di)!0.33!(LSiR)$);
+  \node (PC2i) [box rounded, color = VioletBlue] 
+  at ($(middleiR) + (3, 0)$){Permuted Choice 2};
+  \node[right = 20pt of PC2i, color = Red] (Ki) {$K_i$};
+  \draw[->, thick] (Ci) -- (middleiL) -- (PC2i);
+  \draw[->, thick] (PC2i) -- (Ki);
+  \draw[->, thick] (Di) -- (middleiR);
+  \draw[->, thick, dashed] (middleiL) -- (LSiL);
+  \draw[->, thick, dashed] (middleiR) -- (LSiR);
+
+
+  \draw[->, thick] (LS1L) -- (Ci);
+  \draw[->, thick] (LS1R) -- (Di);
+  \node[box, below of = LSiL, color = Green] (C16) {$C_{16}$};
+  \node[box, below of = LSiR, color = Blue] (D16) {$D_{16}$};
+  \draw[->, thick] (LSiL) -- (C16);
+  \draw[->, thick] (LSiR) -- (D16);
+
+
+  \coordinate (middle16L) at ($(C16) + (0,-1)$);
+  \coordinate (middle16R) at ($(D16) + (0,-1)$);
+  \node (PC216) [box rounded, color = VioletBlue] 
+  at ($(middle16R) + (3, 0)$){Permuted Choice 2};
+  \node[right = 20pt of PC216, color = Red] (K16) {$K_{16}$};
+  \draw[->, thick] (C16) -- (middle16L) -- (PC216);
+  \draw[->, thick] (PC216) -- (K16);
+  \draw[->, thick] (D16) -- (middle16R);
+\end{tikzpicture}
+\end{document}

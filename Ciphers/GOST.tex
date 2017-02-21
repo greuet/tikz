@@ -1,0 +1,49 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+
+\usetikzlibrary{backgrounds,calc,shapes,shapes.symbols, fit,
+  decorations.pathmorphing, decorations.pathreplacing, positioning}
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+\definecolor{Red}{RGB}{226,0,43}
+
+\tikzset{box/.style={draw, nodes={rectangle}, text width = 0.5cm, text centered,
+    minimum height = 0.5cm}}
+\tikzset{box dashed/.style={draw, nodes={rectangle}, minimum width = 5em,
+    text centered, minimum height = 3em}}
+\tikzset{xor/.style={inner sep=0pt}}
+
+
+\begin{document}
+\sffamily
+\begin{tikzpicture}[node distance = 3em,>=latex]
+  
+\begin{scope}[node distance = 10em]
+  \node (bj) {$b(j)$};
+  \node (aj)[right = of bj] {$a(j)$};
+\end{scope}
+
+\node (plus) [box, below = of aj] {$+$};
+\node (K) [right = of plus, color = Red] {$K_i$};
+\node (Sbox) [box dashed, below = of plus] {SBox};
+\node (Rot) [box dashed, below = of Sbox] {RotL11};
+\node (xor) [xor, below = of Rot] {\huge$\oplus$};
+\node (ajp1) [below = of xor] {$a(j+1)$};
+\path let \p1 = (bj) in 
+      let \p2 = (ajp1) in
+      node (bjp1) at (\x1, \y2) {$b(j+1)$};
+
+\draw[->, thick] (bj) -- ++ (0, -1) -- ($(xor) + (-1, 0)$) -- (xor.west);
+
+\draw[->, thick, color = Red] (K) -- (plus);
+\draw[->, thick] (aj) -- (plus);
+\draw[->, thick] (plus) -- (Sbox);
+\draw[->, thick] (Sbox) -- (Rot);
+\draw[->, thick] (Rot) -- (xor);
+\draw[->, thick] (xor) -- (ajp1);
+
+\draw[->, thick] ($(aj)!0.5!(plus)$) -- ++ (-1, 0) -- ($(bjp1) + (0, 1)$) -- (bjp1);
+\end{tikzpicture}
+\end{document}

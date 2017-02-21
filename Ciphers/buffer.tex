@@ -1,0 +1,91 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+
+
+\usetikzlibrary{backgrounds,calc,shapes,shapes.symbols, fit,
+  decorations.pathmorphing, decorations.pathreplacing, positioning}
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+
+\definecolor{Blue}{RGB}{0,81,158}
+\definecolor{Violet}{RGB}{165,51,136}
+\definecolor{Orange}{RGB}{233,93,45}
+\definecolor{Blue}{RGB}{0,81,158}
+\definecolor{Red}{RGB}{226,0,43}
+\definecolor{Green}{RGB}{0,134,51}
+
+
+\tikzset{table text/.style={matrix, column sep=-\pgflinewidth, nodes={rectangle},
+    minimum width=0.8em, minimum height=0.8em, inner sep = 0}}
+\tikzset{table/.style={matrix, column sep=-\pgflinewidth, nodes={rectangle},
+    minimum width=3pt, minimum height=10pt, inner sep =0}}
+\tikzset{table test/.style={matrix, column sep=-\pgflinewidth, nodes={rectangle},
+    inner sep =0}, minimum width = 5pt}
+\tikzset{case state/.style={draw, nodes={rectangle}, fill=Green,
+    minimum height = 15pt, minimum width = 15pt}}
+\tikzset{case tag/.style={draw, nodes={rectangle}, fill=Orange,
+    minimum height = 15pt, minimum width = 15pt}}
+\tikzset{case copyctr/.style={draw, nodes={rectangle}, fill=Violet,
+    minimum height = 15pt, minimum width = 15pt}}
+\tikzset{case keyctr/.style={draw, nodes={rectangle}, fill=Red,
+    minimum height = 15pt, minimum width = 15pt}}
+\tikzset{case alloc/.style={draw, nodes={rectangle}, fill=Blue,
+    minimum height = 15pt, minimum width = 15pt}}
+
+
+
+\begin{document}
+\begin{tikzpicture}[node distance = 1.5cm,>=latex]
+\sffamily
+%% expanded block
+  \matrix (exp block) [table text]{
+      \node[case state] (state left) {}; &  \node[case state] {}; & 
+      \node[case state] {}; &  \node[case state] {}; & 
+      \node[case state] {}; &  \node[case state] {}; & 
+      \node[case state] {}; &  \node[case state] {}; & 
+      \node[case state] {}; &  \node[case state] {}; & 
+      \node[case state] {}; &  \node[case state] {}; & 
+      \node[case state] {}; &  \node[case state] {}; & 
+      \node[case state] {}; &  \node[case state] (state right) {}; & 
+      \node[case tag] (tag) {}; &
+      \node[case copyctr] (copy) {}; &
+      \node[case keyctr] (keyctr left) {}; & \node[case keyctr] (keyctr right) {}; &
+      \node[case alloc] (alloc left) {}; & \node[case alloc] {}; &
+      \node {$\,\,\cdots\,\,$}; &
+      \node[case alloc] {}; & \node[case alloc] (alloc right) {};\\
+  };
+
+
+  \draw[decorate, decoration=brace, ultra thick]
+  ([yshift=-2pt,xshift=-1pt]state right.south east)
+  -- ([yshift=-2pt,xshift=1pt]state left.south west)
+  node[midway, below,yshift = -4pt,
+  text width = 20ex, text centered] {state (16 bytes)};
+
+  \draw[decorate, decoration=brace, ultra thick]
+  ([yshift=2pt,xshift=1pt]tag.north west) --
+  ([yshift=2pt,xshift=-1pt]tag.north east)
+  node[midway, above, yshift = 4pt,
+  text width = 5ex, text centered] {tag};
+
+  \draw[decorate, decoration=brace, ultra thick]
+  ([yshift=-2pt,xshift=-1pt]copy.south east) --
+  ([yshift=-2pt,xshift=1pt]copy.south west)
+  node[midway, below, yshift = -4pt,
+  text width = 10ex, text centered] {copy counter};
+
+  \draw[decorate, decoration=brace, ultra thick]
+  ([yshift=2pt,xshift=1pt]keyctr left.north west) --
+  ([yshift=2pt,xshift=-1pt]keyctr right.north east)
+  node[midway, above, yshift = 4pt,
+  text width = 10ex, text centered] {key use counter};
+
+  \draw[decorate, decoration=brace, ultra thick]
+  ([yshift=-2pt,xshift=-1pt]alloc right.south east) --
+  ([yshift=-2pt,xshift=1pt]alloc left.south west) node[midway,
+  below,yshift = -4pt, text width = 25ex, text centered] {allocated
+    memory};
+\end{tikzpicture}
+\end{document}

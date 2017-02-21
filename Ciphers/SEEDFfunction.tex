@@ -1,0 +1,93 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+
+
+
+
+\usetikzlibrary{backgrounds,calc,shapes,shapes.symbols, fit,
+  decorations.pathmorphing, decorations.pathreplacing, positioning}
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+\definecolor{Blue}{RGB}{0,81,158}
+\definecolor{Violet}{RGB}{165,51,136}
+\definecolor{Orange}{RGB}{233,93,45}
+\definecolor{Red}{RGB}{226,0,43}
+\definecolor{Green}{RGB}{0,134,51}
+
+
+\tikzset{box large/.style={draw, nodes={rectangle}, text width = 6cm, text centered}}
+\tikzset{box rounded/.style={draw=Blue, fill = Green!40, nodes={rectangle}, rounded corners = 5pt,
+    text width = 0.5cm, minimum height = 0.5cm, text centered}}
+\tikzset{box/.style={draw = Blue, fill = Blue!40, nodes={rectangle}, text width = 1.5cm,
+    text centered, minimum height = 0.6cm}}
+\tikzset{xor/.style={inner sep=0pt}}
+\tikzset{key/.style={color=Red}}
+\tikzset{plus/.style={draw = Blue, fill = Violet!40, nodes={rectangle}, text width = 0.4cm,
+    text centered, minimum height = 0.6cm}}
+
+\begin{document}
+\sffamily
+\begin{tikzpicture}[>=latex]
+
+  \node[box] (C) {$C$};
+  \node[box, right = of C] (D) {$D$};
+  \node (xor0) [xor, below of = C] {\LARGE $\oplus$};
+  \node (xor1) [xor, below of = D] {\LARGE $\oplus$};
+  \node (K0) [key,left = of xor0.west] {$K_{i,0}$};
+  \node (K1) [key, right = of xor1.east] {$K_{i,1}$};
+
+  \node (xor2) [xor, below of = xor1] {\LARGE $\oplus$};
+  \node (G1) [box rounded, below of = xor2] {$G$};
+
+  \begin{scope}[node distance = 2.5cm]
+    \node (plus0) [plus, below = of xor0] {$+$};
+  \end{scope}
+
+  \node (G2) [box rounded, below of = plus0] {$G$};
+
+  \begin{scope}[node distance = 3cm]
+    \node (plus1) [plus, below of = G1] {$+$};
+  \end{scope}
+
+  \node (G3) [box rounded, below of = plus1] {$G$};
+  
+  \begin{scope}[node distance = 3cm]
+    \node (plus2) [plus, below of = G2] {$+$};
+  \end{scope}
+  
+  \node (Cprime) [box, below of = plus2] {$C'$};
+  \node (Dprime) [box, right = of Cprime] {$D'$};
+
+
+  \draw[->, thick, color = Blue] (C) -- (xor0);
+  \draw[->, thick, color = Blue] (D) -- (xor1);
+  \draw[->, thick, color = Blue] (K0) -- (xor0);
+  \draw[->, thick, color = Blue] (K1) -- (xor1);
+
+  \draw[->, thick, color = Blue] (xor1) -- (xor2);
+  \draw[->, thick, color = Blue] (xor0) |- (xor2);
+
+  \draw[->, thick, color = Blue] (xor2) -- (G1);
+  \draw[->, thick, color = Blue] (G1) |- (plus0);
+  \draw[->, thick, color = Blue] (xor0) -- (plus0);
+  \draw[->, thick, color = Blue] (plus0) -- (G2);
+
+  \draw[->, thick, color = Blue] (G1) -- (plus1);
+  \draw[->, thick, color = Blue] (G2) |- (plus1);
+
+  \draw[->, thick, color = Blue] (plus1) -- (G3);
+
+  \draw[->, thick, color = Blue] (G2) -- (plus2);
+
+
+  \draw[->, thick, color = Blue] (plus2) -- (Cprime);
+  \draw[->, thick, color = Blue] (G3) -- (Dprime);
+  \draw[->, thick, color = Blue] (G3) |- (plus2);
+
+
+\end{tikzpicture}
+
+
+\end{document}

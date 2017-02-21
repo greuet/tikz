@@ -1,0 +1,51 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usepackage[graphics,tightpage,active]{preview}
+\usepackage{marvosym}
+
+\usetikzlibrary{backgrounds,calc,shapes,shapes.symbols, fit,
+  decorations.pathmorphing, decorations.pathreplacing, positioning}
+\PreviewEnvironment{tikzpicture}
+
+
+\definecolor{Red}{RGB}{226,0,43}
+\definecolor{Green}{RGB}{0,134,51}
+
+
+\tikzset{table/.style={matrix, column sep=-\pgflinewidth, nodes={rectangle},
+    minimum width=0.2em, minimum height=0.4em, inner sep = 0}}
+\tikzset{case/.style={draw, nodes={rectangle}, fill=Green!60,}}
+\tikzset{key/.style={draw, nodes={rectangle}, fill=Red!60, text centered}}
+
+
+\newcommand{\myarrow}{
+  \begin{tikzpicture}
+    \draw[->] (0,0.3) -- (0,0);
+  \end{tikzpicture}
+}
+
+
+\begin{document}
+\sffamily
+\begin{tikzpicture}[node distance = 35pt,>=latex]
+  \matrix (bloc milieu plaintext)  [table]{
+    \node[key] (left) {}; & \node[key] {}; &  \node[key] {}; &  \node[key] {}; &
+    \node[key] {}; & \node[key] {}; &  \node[key] {}; &  \node[key] {};  & 
+    \node[key] {}; & \node[key] {}; &  \node[key] {}; &  \node[key] (right) {}; &
+    \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; & 
+    \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; & 
+    \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; &
+    \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; & 
+    \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; &
+    \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; & 
+    \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; &
+    \node[case] {}; &  \node[case] {}; &  \node[case] {}; &  \node[case] {}; & 
+    \node[case] {}; &  \node[case] {}; \\
+  };
+
+  \path (left.north west) -- node[yshift=7pt,xshift=4pt] {{\textcolor{Red}{\LARGE\Lightning}}} (right.north east);
+
+ 
+\end{tikzpicture}
+\end{document}

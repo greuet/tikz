@@ -1,0 +1,89 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usepackage{amsmath}
+
+
+\usetikzlibrary{backgrounds,calc,shapes,shapes.symbols, fit,
+  decorations.pathmorphing, decorations.pathreplacing, positioning}
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+
+\definecolor{OTOrange}{RGB}{233,93,45}
+\definecolor{OTBlue}{RGB}{0,81,158}
+\definecolor{OTRed}{RGB}{226,0,43}
+\definecolor{OTViolet}{RGB}{165,51,136}
+\definecolor{OTGreen}{RGB}{0,134,51}
+
+
+\tikzset{box large/.style={draw, nodes={rectangle}, text width = 4cm, text centered}}
+\tikzset{box rounded/.style={draw, nodes={rectangle}, rounded corners = 5pt,
+    text width = 4cm, text centered}}
+\tikzset{box/.style={draw, nodes={rectangle}, text width = 3.3cm, text centered, minimum height = 0.6cm}}
+\tikzset{xor/.style={inner sep=0pt}}
+\tikzset{key/.style={draw, nodes={rectangle}, color = OTRed}}
+\tikzset{loop/.style={inner sep=15pt, draw, dashed, color=OTBlue}}
+\tikzset{legend/.style={color=OTBlue}}
+\tikzset{last round/.style={inner sep=7pt, draw, dashed, color=OTViolet}}
+
+
+
+\begin{document}
+\sffamily
+\begin{tikzpicture}[node distance = 1.25cm,>=latex]
+  \begin{scope}[node distance = 0.5cm]
+    \node[box large] (input) {Input};
+    \node[box rounded, below = of input] (IP) {Initial Permutation};
+  \end{scope}
+
+  \begin{scope}[node distance = 1.75cm]
+    \node (xor) [xor, below of = IP] {\LARGE $\oplus$};
+  \end{scope}
+  \node (Ki) [key, right of = xor] {$K_i$};
+  \node (Sbox) [box, color=OTOrange, below of = xor] {SBox$(i \mod 8)$};
+  \node (linear) [box, color=OTGreen, below of = Sbox] {Linear \qquad\qquad Transformation};
+  \begin{scope}[node distance = 1.75cm]
+    \node (xorfinal) [xor, below of = linear] {\LARGE $\oplus$};
+  \end{scope}
+
+  \node[fit=(xor)(Sbox)(linear), loop] (loop) {};
+  \node[left = 5pt of loop, rotate=90, anchor = base, legend]
+  (legend) {Rounds $i=0$ to $i=30$};
+
+  \draw[->, thick] (input) |- ($(input)!0.5!(IP)$) -| (IP.north);
+  \draw[->, thick] (IP) -- (xor);
+  \draw[->, thick, key] (Ki) -- (xor);
+  \draw[->, thick] (xor) -- (Sbox);
+  \draw[->, thick] (Sbox) -- (linear);
+  \draw[->, thick] (linear) -- (xorfinal);
+
+
+  \node (K31) [key, right of = xorfinal] {$K_{31}$};
+
+  \begin{scope}[node distance = 1cm]
+    \node (Sboxfinal) [box, color=OTOrange, below of = xorfinal] {SBox$(7)$};
+    \node (xorfinal2) [xor, below of = Sboxfinal] {\LARGE $\oplus$};
+  \end{scope}
+
+  \node (K32) [key, right of = xorfinal2] {$K_{32}$};
+
+  \draw[->, thick, key] (K31) -- (xorfinal);
+  \draw[->, thick] (xorfinal) -- (Sboxfinal);
+  \draw[->, thick] (Sboxfinal) -- (xorfinal2);
+  \draw[->, thick, key] (K32) -- (xorfinal2);
+
+  \node[box rounded, below = of xorfinal2] (FP) {Final Permutation};
+  \begin{scope}[node distance = 0.5cm]
+    \node[box large, below = of FP] (Output) {Output};
+  \end{scope}
+
+  \draw[->, thick] (xorfinal2) -- (FP);
+  \draw[->, thick] (FP)-- (Output);
+
+  \node[fit=(xorfinal)(Sboxfinal)(xorfinal2)(K31)(K32), last round]
+  (last round) {};
+  \node[left = 5pt of last round, OTViolet, rotate=90, anchor=base]
+  (legend) {Round $i=31$};
+\end{tikzpicture}
+\end{document}

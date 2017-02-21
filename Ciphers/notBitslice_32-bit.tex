@@ -1,0 +1,184 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usepackage{amsmath}
+
+
+\usetikzlibrary{backgrounds,calc,shapes,shapes.symbols, fit,
+  decorations.pathmorphing, decorations.pathreplacing, positioning}
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+
+
+\definecolor{OTOrangeYellow}{RGB}{238,127,0}
+\definecolor{OTBlue}{RGB}{0,81,158}
+\definecolor{OTRed}{RGB}{226,0,43}
+\definecolor{OTGreen}{RGB}{0,134,51}
+
+
+\tikzset{table/.style={matrix, column sep=-\pgflinewidth, nodes={rectangle}, 
+    minimum width=3pt, minimum height=10pt,
+    inner sep =0}}
+\tikzset{case empty/.style={minimum height = 15pt, minimum width = 25pt}}
+\tikzset{case zero/.style={draw, nodes={rectangle}, fill=OTGreen!70,
+    minimum height = 15pt, minimum width = 5pt}}
+\tikzset{case one/.style={draw, nodes={rectangle}, fill=OTRed!70,
+    minimum height = 15pt, minimum width = 5pt}}
+\tikzset{case two/.style={draw, nodes={rectangle}, fill=OTBlue!70,
+    minimum height = 15pt, minimum width = 5pt}}
+\tikzset{case three/.style={draw, nodes={rectangle}, fill=OTOrangeYellow!70,
+    minimum height = 15pt, minimum width = 5pt}}
+
+
+
+
+\begin{document}
+\ttfamily
+\begin{tikzpicture}[>=latex, node distance = 0.25cm]
+  \matrix (register zero) [table] {
+    \node[case zero] (z0) {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three] (th0) {}; &
+    \node[case zero] (z1) {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three] (th1) {}; &
+    \node[case zero] (z2) {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three] (th2) {}; &
+    \node[case zero] (z3) {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three] (th3) {}; &
+    \node[case zero] (z4) {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three] (th4) {}; &
+    \node[case zero] (z5) {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three] (th5) {}; &
+    \node[case zero] (z6) {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three] (th6) {}; &
+    \node[case zero] (z7) {}; &  \node[case one] {}; & 
+    \node[case two] {}; &  \node[case three] (th7) {};\\
+  };
+
+  \node[fit=(z0)(th7), above] {Register 0 (32-bit)};
+
+  \matrix (register one) [table, right = of register zero] {
+    \node[case zero] (z01) {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three]  {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three]  {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three]  {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three]  {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three]  {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three]  {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three]  {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; &  \node[case three] (th71) {};\\
+  };
+
+  \node[fit=(z01)(th71), above] {Register 1 (32-bit)};
+
+  
+  \matrix (register two) [table, right = of register one] {
+    \node[case zero] (z02){}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three] {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three]  {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three] {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three]  {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three] {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three]  {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three] {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; &  \node[case three] (th72) {};\\
+  };
+
+  \node[fit=(z02)(th72), above] {Register 2 (32-bit)};
+
+  \matrix (register three) [table, right = of register two] {
+    \node[case zero] (z03) {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three] {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three]  {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three] {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three]  {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three] {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three]  {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; & \node[case three] {}; &
+    \node[case zero]  {}; &  \node[case one] {}; & 
+    \node[case two] {}; &  \node[case three]  (th73) {}; \\
+  };
+
+  \node[fit=(z03)(th73), above] {Register 3 (32-bit)};
+
+
+  \draw[decorate, decoration=brace, ultra thick]
+  ([yshift=-2pt,xshift=-1pt]th0.south east) --
+  ([yshift=-2pt,xshift=1pt]z0.south west) 
+  node[midway, below,yshift = -4pt, text width = 4ex, text centered]
+  {\sffamily\footnotesize SBox};
+
+  \draw[decorate, decoration=brace, ultra thick]
+  ([yshift=-2pt,xshift=-1pt]th1.south east) --
+  ([yshift=-2pt,xshift=1pt]z1.south west) 
+  node[midway, below,yshift = -4pt, text width = 10ex, text centered]
+  {\sffamily\footnotesize SBox};
+
+  \draw[decorate, decoration=brace, ultra thick]
+  ([yshift=-2pt,xshift=-1pt]th2.south east) --
+  ([yshift=-2pt,xshift=1pt]z2.south west) 
+  node[midway, below,yshift = -4pt, text width = 20ex, text centered]
+  {\sffamily\footnotesize SBox};
+
+  \draw[decorate, decoration=brace, ultra thick]
+  ([yshift=-2pt,xshift=-1pt]th3.south east) --
+  ([yshift=-2pt,xshift=1pt]z3.south west) 
+  node[midway, below,yshift = -4pt, text width = 20ex, text centered]
+  {\sffamily\footnotesize SBox};
+
+  \draw[decorate, decoration=brace, ultra thick]
+  ([yshift=-2pt,xshift=-1pt]th4.south east) --
+  ([yshift=-2pt,xshift=1pt]z4.south west) 
+  node[midway, below,yshift = -4pt, text width = 20ex, text centered]
+  {\sffamily\footnotesize SBox};
+
+  \draw[decorate, decoration=brace, ultra thick]
+  ([yshift=-2pt,xshift=-1pt]th5.south east) --
+  ([yshift=-2pt,xshift=1pt]z5.south west) 
+  node[midway, below,yshift = -7pt, text width = 20ex, text centered]
+  {\sffamily\ldots};
+
+  % \draw[->,OTGreen,thick] (z0.south) -- (z0bs.north);
+  % \draw[->,OTGreen,thick] (z1.south) -- ++ (0, -0.1) -| (z1bs.north);
+  % \draw[->,OTGreen,thick] (z2.south) -- ++ (0, -0.2) -|(z2bs.north);
+  % \draw[->,OTGreen,thick] (z3.south) -- ++ (0, -0.3) -|(z3bs.north);
+  % \draw[->,OTGreen,thick] (z4.south) -- ++ (0, -0.4) -|(z4bs.north);
+  % \draw[->,OTGreen,thick] (z5.south) -- ++ (0, -0.5) -|(z5bs.north);
+  % \draw[->,OTGreen,thick] (z6.south) -- ++ (0, -0.6) -|(z6bs.north);
+  % \draw[->,OTGreen,thick] (z7.south) -- ++ (0, -0.7) -|(z7bs.north);
+
+\end{tikzpicture}
+
+% \begin{tikzpicture}
+%   \matrix (padding) [table] {
+%     \node[case state] {}; &  \node[case state] {}; & 
+%     \node[case empty] {}; &
+%     \node[case state] {}; &  \node[case state] {}; & 
+%     \node[case empty] {}; &
+%     \node[case state] {}; &  \node[case state] {}; & 
+%     \node[case empty] {}; &
+%     \node[case state] {}; &  \node[case state] {}; & 
+%     \node[case empty] {}; &
+%     \node[case state] {}; &  \node [case state]{}; \\
+%   };
+% \end{tikzpicture}
+\end{document}

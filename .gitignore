@@ -1,6 +1,5 @@
 auto/
 *.aux
-*.pdf
 *.log
 *~
 *.gnuplot
